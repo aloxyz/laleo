@@ -3,9 +3,9 @@
     --orange-light: #EF9957;
     --black: #444444;
     --white: #FFFFFF;
-    --white-dark: #F5F5F5;
+    --white-dark: #dddddd;
     --violet: #bc96e6;
-    --shadow: #dadada;
+    --shadow: #e0e0e0;
     
     box-sizing: border-box;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -20,13 +20,21 @@ body {
     margin: 0;
 }
 
+.title {
+    color: var(--orange);
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.thoughts .title {
+    margin-left: 3em;
+}
+
 .navbar {
     width: 100%;
-    margin: 0 auto;
-
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr 1fr;
-    align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
 
     background-color: var(--white-dark);
     box-shadow: 0 0 1.5em var(--shadow);
@@ -45,10 +53,14 @@ input[type=text], input[type=password], input[type=date], input[type=submit]{
     width: 40em;
 }
 
+.navbar input[type=text] {
+    width: 20em;
+}
+
 .formbox {
     display:flex;
     flex-direction: column;
-
+    margin: 2em;
 }
 
 .button {
@@ -88,7 +100,7 @@ a:hover {
     justify-items: center;
 }
 
-.post {
+.box {
     width: 40em;
     margin: 2.5em;
     padding: 2em;
@@ -116,4 +128,16 @@ a:hover {
 .post-title {
     font-weight: bold;
     font-size: 1.5em;
+}
+
+.reactions {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.react {
+    background-color: var(--white-dark);
+    border-radius: 16%;
+    margin: .5em;
+    padding: .4em;
 }
