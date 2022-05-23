@@ -10,10 +10,12 @@
 <body>
     <p class="textlogo" id="logintextlogo">Lalèo</p>
 
-    <form id="loginbox" method="post">
+    <form class="formbox" method="post">
         <p class="title">Account registration</p>
-        <p>*: optional</p>
-        <a class="link" href="login.html">Click here to log in an existing account</a>
+        <div>
+            <p>*: optional</p>
+            <a class="link" href="login.html">Click here to log in an existing account</a>    
+        </div>
         <ul>
             <li>
                 <p>Email</p>
@@ -52,9 +54,12 @@
                 <p>Country*</p>
                 <input class="form" type="text" name="country" placeholder="Country">
             </li>
+
+            <li>
+                <input class="button" type="submit" value="Create an account">
+            </li>
         </ul>
-        
-        <input class="button" type="submit" value="Create an account">
+
     </form>
 </body>
 </html>
