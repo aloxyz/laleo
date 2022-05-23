@@ -5,6 +5,11 @@
     --white: #FFFFFF;
     --white-dark: #F5F5F5;
     --violet: #bc96e6;
+    --shadow: #dadada;
+
+    box-sizing: border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: #444444;
 }
 
 ul {
@@ -23,6 +28,7 @@ ul {
     align-items: center;
 
     background-color: var(--white-dark);
+    box-shadow: 0 0 1.5em var(--shadow);
   }
 
 .navsearch {
@@ -34,14 +40,56 @@ ul {
 
 a {
     color: var(--orange);
+    text-decoration: underline;
 }
 a:hover {
     color: var(--orange-light);
     transition: 0.2s;
+    cursor: pointer;
 }
 
 .textlogo {
     color: var(--orange);
     font-size: 2em;
+    font-family: serif;
     text-decoration: none;
+}
+
+
+
+
+.feed {
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-items: center;
+}
+
+.post {
+    width: 40em;
+    margin: 2.5em;
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0 0 1.5em var(--shadow);
+}
+
+.post-head {
+    display: grid;
+    grid-template-columns: 4em 1fr;
+    justify-items: start;
+    align-items: center;
+}
+.post-author {
+    text-decoration: none;
+    color: var(--black);
+    font-weight: bold;
+}
+
+.post-profile-picture {
+    width: 3em;
+    border-radius: 25%;
+}
+
+.post-title {
+    font-weight: bold;
+    font-size: 2em;
 }
