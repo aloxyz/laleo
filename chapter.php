@@ -7,9 +7,14 @@
 <script>
 $(document).ready(function(){
   $("button").on("click", function(button){
-    $.post("vote.php",
+
+    if ($(this).attr('id') == 'up') var value = true;
+    else var value = '0';
+
+    $.post("vote_chapter.php",
     {
-        nome:$(this).parent().attr('id')
+        chapter_id:$(this).parent().attr('id'),
+        vote:value
     },
     function(data,status){
         console.log(data);
@@ -72,8 +77,9 @@ $(document).ready(function(){
                         </div>
                         ';
                 
-                echo '<div id=5><button id="up">UP</button></div>
-                ';
+                echo '<div id=1><button id="up">UP</button></div>
+                      <div id=1><button id="down">DOWN</button></div>
+                    ';
 
                 
                 
