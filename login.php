@@ -7,13 +7,13 @@
         $nickname = $conn->real_escape_string($_POST['nickname']);
         $password = $conn->real_escape_string($_POST['password']);
 
-        $sql = "SELECT * FROM Account WHERE nickname = '$nickname'";
+        $sql = "SELECT * FROM accounts WHERE nickname = '$nickname'";
         if($result = $conn->query($sql)){
             $row = $result->fetch_array(MYSQLI_ASSOC);
             if (password_verify($password, $row['password'])) {
     
                 $_SESSION['id'] = $row['ID'];
-                $_SESSION['role'] = $row['ruolo'];
+                $_SESSION['role'] = $row['role'];
                 $_SESSION['nickname'] = $row['nickname'];
                 
                 header("location: index.php");

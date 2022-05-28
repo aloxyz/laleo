@@ -3,7 +3,7 @@
     session_start();
     if($_POST){         
         $error = "";
-
+        #Checks if mandatory fields are present
         if (!$_POST['email'])
             $error .= "Email required<br>";
         if (!$_POST['nickname'])
@@ -17,19 +17,22 @@
         if (!($_POST['confirmed_password'] === $_POST['password']))
             $error .= "Confirm password wrong<br>";
         
-        $sql = "SELECT * FROM Account WHERE email = '"
-                .$_POST['email']." '
-            ";
-    
-        if ($result = $conn->query($sql) && $result->num_rows) {
-                $error .= "There is already an account associated with this mail";
+        #Checks if there are already accounts associated with email and nickname
+        
+        
+        $email = $conn->real_escape_string($_POST['email']);
+        $sql = "SELECT * FROM accounts WHERE email = '$email'";
+        
+        if ($result = $conn->query($sql))
+            if($result->num_rows) {
+                $error .= "There is already an account associated with this mail<br>";
             }
         
-        $sql = "SELECT * FROM Account WHERE nickname = '"
-            .$_POST['nickname']." '
-        ";
-        if ($result = $conn->query($sql) && $result->num_rows) {
-            $error .= "There is already an account associated with this nickname";
+        $nickname = $conn->real_escape_string($_POST['nickname']);
+        $sql = "SELECT * FROM accounts WHERE nickname = '$nickname'";
+        if ($result = $conn->query($sql))
+            if($result->num_rows) {
+            $error .= "There is already an account associated with this nickname<br>";
         }
 
         $today = date("Y-m-d");
@@ -45,8 +48,6 @@
         if ($error)
             $error = "Some fields are invalid:<br> $error";
         else{
-            $email = $conn->real_escape_string($_POST['email']);
-            $nickname = $conn->real_escape_string($_POST['nickname']);
             $password = $conn->real_escape_string($_POST['password']);
             $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -70,8 +71,8 @@
             else
             $country = "NULL";
 
-            $sql = "INSERT INTO Account (nickname, email, password, nome, cognome, paese, data_nascita, data_registrazione, ruolo) 
-                    VALUES ('$nickname', '$email', '$password', '$name', '$surname', '$country', '$birthdate', '$today', 'Utente')";
+            $sql = "INSERT INTO accounts (nickname, email, password, name, surname, country, birthdate, registration_date, role) 
+                    VALUES ('$nickname', '$email', '$password', '$name', '$surname', '$country', '$birthdate', '$today', 'user')";
 
             if ($result = $conn->query($sql)){
                 header("location: login.php");
@@ -96,7 +97,7 @@
     <a class="textlogo" href="index.php">Lalèo</a>
     <?php echo $error; ?>
     <form class="formbox" method="post">
-        <p class="title">Account registration</p>
+        <p class="title">accounts registration</p>
         <a class="link" href="login.php">Click here to log in an existing account</a>
         <div>
             <p>*: optional</p>    
