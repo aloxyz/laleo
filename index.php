@@ -22,9 +22,11 @@
         echo '<a class="link" href="login.php">Login</a>';
         echo '<a class="link" href="signup.php">Signup</a>';
         }
+        else{
+            echo '<a class="link" href="edit_profile.php">Edit Profile</a>';
+            echo '<a class="link" href="logout.php">Logout</a>';
+        }
         ?>
-        <a class="link" href="logout.php">Logout</a>
-
     </div>
 
     <div class="feed">
