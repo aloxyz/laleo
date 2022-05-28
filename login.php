@@ -12,7 +12,7 @@
             $row = $result->fetch_array(MYSQLI_ASSOC);
             if (password_verify($password, $row['password'])) {
     
-                $_SESSION['id'] = $row['ID'];
+                $_SESSION['id'] = $row['account_ID'];
                 $_SESSION['role'] = $row['role'];
                 $_SESSION['nickname'] = $row['nickname'];
                 
