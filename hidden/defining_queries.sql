@@ -150,7 +150,7 @@ create table genres_stories(
 create table votes_stories(
    account_ID INT,
    story_ID INT,
-   vote BOOL,
+   vote BOOL NOT NULL,
    PRIMARY KEY(account_ID, story_ID),
    FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
    FOREIGN KEY(story_ID) REFERENCES stories(story_ID)
@@ -159,7 +159,7 @@ create table votes_stories(
 create table votes_chapters(
    account_ID INT,
    chapter_ID INT,
-   vote BOOL,
+   vote BOOL NOT NULL,
    PRIMARY KEY(account_ID, chapter_ID),
    FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
    FOREIGN KEY(chapter_ID) REFERENCES chapters(chapter_ID)
