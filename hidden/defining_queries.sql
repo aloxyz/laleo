@@ -37,7 +37,7 @@ create table stories(
    author varchar(15) NOT NULL,
    PRIMARY KEY (story_ID),
    FOREIGN KEY (language) REFERENCES languages(language_name),
-   FOREIGN KEY (author) REFERENCES accounts(nickname)
+   FOREIGN KEY (author) REFERENCES accounts(nickname) ON DELETE CASCADE
 );
 
 create table chapters(
@@ -49,7 +49,7 @@ create table chapters(
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
    story_ID INT NOT NULL,
    PRIMARY KEY (chapter_ID),
-   FOREIGN KEY (story_ID) REFERENCES stories(story_ID)
+   FOREIGN KEY (story_ID) REFERENCES stories(story_ID) ON DELETE CASCADE
 );
 
 create table thoughts(
@@ -61,9 +61,9 @@ create table thoughts(
    thought_padre_ID INT,
    author varchar(15),
    PRIMARY KEY (thought_ID),
-   FOREIGN KEY (chapter_ID) REFERENCES chapters(chapter_ID),
+   FOREIGN KEY (chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
    FOREIGN KEY (thought_padre_ID) REFERENCES thoughts(thought_ID),   
-   FOREIGN KEY (author) REFERENCES accounts(nickname)   
+   FOREIGN KEY (author) REFERENCES accounts(nickname) ON DELETE CASCADE
 );
 
 
@@ -83,7 +83,7 @@ create table accounts_stories(
    account_ID INT,
    story_ID INT,
    PRIMARY KEY(account_ID, story_ID),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
    FOREIGN KEY(story_ID) REFERENCES stories(story_ID)
 );
 
@@ -91,24 +91,24 @@ create table accounts_genres(
    account_ID INT,
    genre_name VARCHAR(15),
    PRIMARY KEY(account_ID, genre_name),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(genre_name) REFERENCES genres(genre_name)
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(genre_name) REFERENCES genres(genre_name) ON DELETE CASCADE
 );
 
 create table followers_followeds(
    follower_ID INT,
    followed_ID INT,
    PRIMARY KEY(follower_ID, followed_ID),
-   FOREIGN KEY(follower_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(followed_ID) REFERENCES accounts(account_ID)
+   FOREIGN KEY(follower_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(followed_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE
 );
 
 create table accounts_languages(
    account_ID INT,
    language_name VARCHAR(15),
    PRIMARY KEY(account_ID, language_name),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(language_name) REFERENCES languages(language_name)
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(language_name) REFERENCES languages(language_name) ON DELETE CASCADE
 );
 
 create table thoughts_accounts_reactions(
@@ -116,9 +116,9 @@ create table thoughts_accounts_reactions(
    account_ID INT,
    reaction_code INT,   
    PRIMARY KEY(thought_ID, account_ID, reaction_code),
-   FOREIGN KEY(thought_ID) REFERENCES thoughts(thought_ID),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(reaction_code) REFERENCES reactions(reaction_code)
+   FOREIGN KEY(thought_ID) REFERENCES thoughts(thought_ID) ON DELETE CASCADE,
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(reaction_code) REFERENCES reactions(reaction_code) ON DELETE CASCADE
 );
 
 create table chapters_accounts_reactions(
@@ -126,25 +126,25 @@ create table chapters_accounts_reactions(
    account_ID INT,
    reaction_code INT,   
    PRIMARY KEY(chapter_ID, account_ID, reaction_code),
-   FOREIGN KEY(chapter_ID) REFERENCES chapters(chapter_ID),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(reaction_code) REFERENCES reactions(reaction_code)
+   FOREIGN KEY(chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(reaction_code) REFERENCES reactions(reaction_code) ON DELETE CASCADE
 );
 
 create table moderators_languages(
    moderator_ID INT,
    language_name VARCHAR(15),
    PRIMARY KEY(moderator_ID, language_name),
-   FOREIGN KEY(moderator_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(language_name) REFERENCES languages(language_name)
+   FOREIGN KEY(moderator_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(language_name) REFERENCES languages(language_name) ON DELETE CASCADE
 );
 
 create table genres_stories(
    genre_name VARCHAR(15),
    story_ID INT,
    PRIMARY KEY(genre_name, story_ID),
-   FOREIGN KEY(genre_name) REFERENCES genres(genre_name),
-   FOREIGN KEY(story_ID) REFERENCES stories(story_ID)
+   FOREIGN KEY(genre_name) REFERENCES genres(genre_name) ON DELETE CASCADE,
+   FOREIGN KEY(story_ID) REFERENCES stories(story_ID) ON DELETE CASCADE
 );
 
 create table votes_stories(
@@ -152,8 +152,8 @@ create table votes_stories(
    story_ID INT,
    vote BOOL NOT NULL,
    PRIMARY KEY(account_ID, story_ID),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(story_ID) REFERENCES stories(story_ID)
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(story_ID) REFERENCES stories(story_ID) ON DELETE CASCADE
 );
 
 create table votes_chapters(
@@ -161,8 +161,8 @@ create table votes_chapters(
    chapter_ID INT,
    vote BOOL NOT NULL,
    PRIMARY KEY(account_ID, chapter_ID),
-   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID),
-   FOREIGN KEY(chapter_ID) REFERENCES chapters(chapter_ID)
+   FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
+   FOREIGN KEY(chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE
 );
 
 
