@@ -29,10 +29,15 @@
             }
         
         $nickname = $conn->real_escape_string($_POST['nickname']);
-        $sql = "SELECT * FROM accounts WHERE nickname = '$nickname'";
-        if ($result = $conn->query($sql))
-            if($result->num_rows) {
-            $error .= "There is already an account associated with this nickname<br>";
+        if (!($new_nickname) || !(is_string($new_nickname)) || $new_nickname = ''){
+            $sql = "SELECT * FROM accounts WHERE nickname = '$nickname'";
+            if ($result = $conn->query($sql))
+                if($result->num_rows) {
+                $error .= "There is already an account associated with this nickname<br>";
+            }
+        }
+        else{
+            $error .= "Nickname invalid<br>";
         }
 
         $today = date("Y-m-d");
