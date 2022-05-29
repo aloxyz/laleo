@@ -23,7 +23,7 @@
         echo '<a class="link" href="signup.php">Signup</a>';
         }
         else{
-            echo '<a class="link" href="edit_profile.php">Edit Profile</a>';
+            echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
             echo '<a class="link" href="logout.php">Logout</a>';
         }
         ?>
@@ -47,7 +47,7 @@
             Aliquet sagittis id consectetur purus ut faucibus. 
             Quam vulputate dignissim suspendisse in est ante in nibh mauris. 
             Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. 
-            Suspendisse interdum consectetur ...<a href="chapter.php"> Read full post</a>
+            Suspendisse interdum consectetur ...<a href="chapter.php?id=1"> Read full post</a>
             </p>
             <a class="thoughts">12 Thoughts</a>
             <div class="reactions">
