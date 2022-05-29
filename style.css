@@ -50,7 +50,7 @@ input[type=text], input[type=password], input[type=date], input[type=submit]{
 }
 
 .formbox input[type=text], input[type=password], input[type=date], input[type=submit] {
-    width: 40em;
+    width: 20em;
 }
 
 .navbar input[type=text] {
