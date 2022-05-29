@@ -29,7 +29,7 @@ create table stories(
    story_ID INT AUTO_INCREMENT,
    title VARCHAR(50) NOT NULL,
    chapters_number INT NOT NULL DEFAULT 0,
-   pubblication_time TIMESTAMP NOT NULL,
+   pubblication_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    total_votes INT NOT NULL DEFAULT 0,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
    thumbnail BLOB,
