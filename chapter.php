@@ -13,12 +13,11 @@ $(document).ready(function(){
 
     $.post("vote_chapter.php",
     {
-        chapter_id:$(this).parent().attr('id'),
+        chapter_id:$(this).parent().attr('chap_id'),
         vote:value
     },
     function(data,status){
-        console.log(data);
-        console.log(status);
+        document.getElementById("total_votes").innerHTML = parseInt(document.getElementById("total_votes").innerHTML)+parseInt(data);  
     }
     )
   });
@@ -39,14 +38,14 @@ $(document).ready(function(){
             chapters.title AS chapter_title,
             stories.title AS story_title,
             chapters.hidden_flag AS hidden_flag,
-            chapters.pubblication_time AS pubblication_time
+            chapters.pubblication_time AS pubblication_time,
+            chapters.total_votes AS total_votes
         FROM chapters
         JOIN stories
         ON chapters.story_ID = stories.story_ID
         JOIN accounts
         ON accounts.nickname = stories.author
         WHERE chapters.chapter_ID = '$chapter_ID'";
-
         #Checks if the query was succesful and if there is a row that matched the search.
         $error = true;
         if($result = $conn->query($sql))
@@ -54,8 +53,6 @@ $(document).ready(function(){
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 if(visible($row)){
                     $error = false;
-                    print_r($row);
-                    print_r($_SESSION);
                     echo '
     <title>'.$row['story_title'].'- Lalèo</title>
 </head>
@@ -77,13 +74,10 @@ $(document).ready(function(){
                         </div>
                         ';
                 
-                echo '<div id=1><button id="up">UP</button></div>
-                      <div id=1><button id="down">DOWN</button></div>
+                echo '<div chap_id='.$_GET['id'].'><button id="up">UP</button></div>
+                      <div chap_id='.$_GET['id'].'><button id="down">DOWN</button></div>
+                      <div id=total_votes>'.$row['total_votes'].'</div>
                     ';
-
-                
-                
-
                 }    
             }
 

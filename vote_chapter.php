@@ -17,19 +17,26 @@
                     $sql2 = NULL;
                     if($row){
                         $sql1 = "DELETE FROM votes_chapters WHERE votes_chapters.chapter_ID = '$chapter_ID' AND votes_chapters.account_ID = '$account_ID'";
-                        if($row['vote'] == true)
+                        if($row['vote'] == true){
                             $sql2 = "UPDATE chapters SET total_votes = total_votes -1 WHERE chapter_ID = '$chapter_ID'";
-                        else
+                            echo -1;
+                        }
+                        else{
                             $sql2 = "UPDATE chapters SET total_votes = total_votes +1 WHERE chapter_ID = '$chapter_ID'";
+                            echo +1;
+                        }
                     }
                     else{
                         $sql1 = "INSERT INTO votes_chapters (account_ID, chapter_ID, vote) VALUES('$account_ID', '$chapter_ID', '$input')";
-                        if($input == true)
+                        if($input == true){
                             $sql2 = "UPDATE chapters SET total_votes = total_votes +1 WHERE chapter_ID = '$chapter_ID'";
-                        else
+                            echo +1;
+                        }
+                        else{
                             $sql2 = "UPDATE chapters SET total_votes = total_votes -1 WHERE chapter_ID = '$chapter_ID'";
+                            echo -1;
+                        }
                     }
-
                     $conn->begin_transaction();
                     $conn->query($sql1);
                     $conn->query($sql2);
