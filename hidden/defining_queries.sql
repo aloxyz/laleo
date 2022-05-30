@@ -32,7 +32,7 @@ create table stories(
    pubblication_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    total_votes INT NOT NULL DEFAULT 0,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
-   thumbnail BLOB,
+   thumbnail MEDIUMBLOB,
    language VARCHAR(15) NOT NULL,
    author varchar(15) NOT NULL,
    PRIMARY KEY (story_ID),
@@ -62,7 +62,7 @@ create table thoughts(
    author varchar(15),
    PRIMARY KEY (thought_ID),
    FOREIGN KEY (chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
-   FOREIGN KEY (thought_padre_ID) REFERENCES thoughts(thought_ID),   
+   FOREIGN KEY (thought_padre_ID) REFERENCES thoughts(thought_ID) ON DELETE CASCADE,   
    FOREIGN KEY (author) REFERENCES accounts(nickname) ON DELETE CASCADE
 );
 
