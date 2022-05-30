@@ -108,6 +108,14 @@ a:hover {
     box-shadow: 0 0 1.5em var(--shadow);
 }
 
+.box-story {
+    width: 60em;
+    margin: 2.5em;
+    padding: 2em;
+    border-radius: 1em;
+    box-shadow: 0 0 1.5em var(--shadow);
+}
+
 .post-head {
     display: grid;
     grid-template-columns: 4em 1fr;
@@ -140,4 +148,9 @@ a:hover {
     border-radius: 16%;
     margin: .5em;
     padding: .4em;
+}
+.break-text p {
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis
 }
