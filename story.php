@@ -20,7 +20,7 @@
     if($result = $conn->query($sql))
         $row = $result->fetch_array(MYSQLI_ASSOC);
     
-    if((!($row || $row['hidden_flag'] == true))){
+    if((!($row) || ($row['hidden_flag'] && !($_SESSION['role'] == 'moderator' || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $row['author_nickname'])))){
       echo "not found";
       #header("location: hidden/story_not_found.html");
     }
