@@ -9,38 +9,78 @@
         $title = $conn->real_escape_string($_POST['title']);
         $image = $_FILES['image'];
         $language = $conn->real_escape_string($_POST['language']);
+        $genres = $_POST['genre'];
 
-        $maxSize   = 3 * 1024 * 1024; #3 MB
         $error = "";
-        if($image['size'] > $maxSize){
-            $error.="The image is too big<br>";
+
+        #check on title
+        if($title == ""){
+            $error .="Title can't be empty<br>";
         }
 
-        $accepted_types = array("image/jpeg", "image/png");
+        #checks on image
+        if($image['size']){   #if a file was uploaded
+            $maxSize   = 3 * 1024 * 1024; #3 MB
+            if($image['size'] > $maxSize){
+                $error.="The image is too big<br>";
+            }
 
-        if(!in_array($image['type'], $accepted_types)){
-            $error .= "Format not supported<br>";
+            $accepted_types = array("image/jpeg", "image/png");
+            if($image['size']!=0 && !in_array($image['type'], $accepted_types)){
+                $error .= "Format not supported<br>";
+            }
+            $image = $conn->real_escape_string(file_get_contents($image['tmp_name']));
+        }
+        else{
+            $image = NULL;
         }
 
+        #checks on language
+        if($language == ""){
+            $error .="You must choose a langauge<br>";
+        }
+        else{
         $sql = "SELECT language_name FROM languages WHERE language_name='$language'";
         if (!($conn->query($sql)->num_rows))
             $error .= "That language doesn't exist<br>";
+        }
+
+        #checks on genres
+        if(empty($genres)){
+            $error.= "You must choose at least one genre<br>";
+        }
+        else{
+            $sql = "SELECT genre_name FROM genres";
+            $result = $conn->query($sql);
+            while($genre = $result -> fetch_array(MYSQLI_ASSOC)){
+                $existing_genres[] = $genre;                        #obtains all result from query in the form Array("genre_name"=>$genrename)
+            }
+        
+            foreach ($genres as $genre) {
+                if(!(in_array(array("genre_name"=>$genre), $existing_genres))){    
+                    $error.="Genre".$genre."doesn't exist<br>";
+                } 
+            } 
+        }
 
         if($error == ""){
             $nickname = $_SESSION['nickname'];
-            $image = $conn->real_escape_string(file_get_contents($image['tmp_name']));
             $sql = "INSERT INTO stories (title, author, thumbnail, language) 
-                    VALUES ('$title', '$nickname', '$image', '$language')";
-
-            $conn->query($sql);
+                    VALUES (?,?,?,?)";
+            $query = $conn->prepare($sql);
+            $query -> bind_param('ssbs', $title, $nickname, $image, $language);
+            $query->execute();
+            
+            $story_id = $conn->insert_id;
+            foreach ($genres as $genre) {
+                $genre = $conn->real_escape_string($genre);
+                $sql = "INSERT INTO genres_stories (genre_name, story_ID) 
+                    VALUES ('$genre','$story_id')";
+                $conn->query($sql);
+            }
+            header("location: story.php?=".$story_id); #goes to page with id returned from last query
         }
-
-    echo $image;   
-    print_r($image);
-
-    }
-
-
+     }
 ?>
 <html lang="en">
 <head>
@@ -48,7 +88,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
     <title>Create story - Lalèo</title>
 </head>
 <body>
@@ -56,24 +97,41 @@
     <?php echo '<br>'.$error; ?>
     <div class="container rounded bg-white mt-5">
     <form method="post" enctype="multipart/form-data">
-        <div>
             <div class="row mt-2">
                 <input type="text" class="form-control" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
                 <input type="file" name="image">
             </div>
             <div class="row mt-2">
-                <select name="language" id="language" class="form-select">';
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                <select name="language" id="language" class="form-select" autocomplete>';
             <?php
                 $sql = 'SELECT language_name FROM languages';
                 if($result = $conn->query($sql))
                     while ($language = $result->fetch_array(MYSQLI_ASSOC)){
-                        echo $language;
                         echo'<option value='.$language['language_name'].'>'.$language['language_name'].'</option>';
                     }
             ?>
                 </select>
-            <input class="button" type="submit" value="Create Story">
+                </div>
+                <div class="col-sm">
+                <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>';
+            <?php
+                $sql = 'SELECT genre_name FROM genres';
+                if($result = $conn->query($sql))
+                    while ($genre = $result->fetch_array(MYSQLI_ASSOC)){
+                        echo'<option value='.$genre['genre_name'].'>'.$genre['genre_name'].'</option>';
+                    }
+            ?>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-sm">
+                <input class="button" type="submit" value="Create Story">
+                </div>   
+            </div>
+        
         </div>
     </form>
 </div>
