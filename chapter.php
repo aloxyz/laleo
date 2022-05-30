@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-  $("button").on("click", function(button){
+  $(".vote").on("click", function(button){
 
     if ($(this).attr('id') == 'up') var value = true;
     else var value = '0';
@@ -74,8 +74,8 @@ $(document).ready(function(){
                         </div>
                         ';
                 
-                echo '<div chap_id='.$_GET['id'].'><button id="up">UP</button></div>
-                      <div chap_id='.$_GET['id'].'><button id="down">DOWN</button></div>
+                echo '<div chap_id='.$_GET['id'].'><button class="vote" id="up">UP</button></div>
+                      <div chap_id='.$_GET['id'].'><button class="vote" id="down">DOWN</button></div>
                       <div id=total_votes>'.$row['total_votes'].'</div>
                     ';
                 }    
