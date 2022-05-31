@@ -1,5 +1,6 @@
 <?php
     require_once("conn.php");
+    require_once("hidden/zone_moderator.php");
     session_start();
 
     $story_id = $conn->real_escape_string($_GET['id']);
@@ -9,7 +10,7 @@
             stories.hidden_flag AS hidden_flag,
             stories.total_votes AS total_votes,
             stories.chapters_number AS chapters_number,
-            stories.thumbnail AS thumbnail,
+            stories.thumbnail_path AS thumbnail_path,
             stories.language AS language,
             accounts.account_ID AS author_ID
         FROM stories
@@ -20,7 +21,7 @@
     if($result = $conn->query($sql))
         $row = $result->fetch_array(MYSQLI_ASSOC);
     
-    if((!($row) || ($row['hidden_flag'] && !($_SESSION['role'] == 'moderator' || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $row['author_nickname'])))){
+    if((!($row) || ($row['hidden_flag'] && !(zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || $_SESSION['id'] == $row['author_ID'])))){
       echo "not found";
       #header("location: hidden/story_not_found.html");
     }
@@ -40,7 +41,6 @@ $(document).ready(function(){
     $("#unfollow").attr('hidden', false);
     $("#follow").attr('hidden', true);
 
-
     $.get("hidden/follow_story.php?id=<?php echo $story_id ?>");
   });
 
@@ -52,38 +52,66 @@ $(document).ready(function(){
     $.get("hidden/unfollow_story.php?id=<?php echo $story_id ?>");
   });
 
+
+  $("#show").on("click", function(){
+
+    $("#hide").attr('hidden', false);
+    $("#show").attr('hidden', true);
+
+    $.post("hidden/toggle_hide_story.php",
+      {
+        story_id:<?php echo $story_id;?>,
+        bool:0
+      }
+)});
+
+  $("#hide").on("click", function(){
+
+    $("#show").attr('hidden', false);
+    $("#hide").attr('hidden', true);   
+
+    $.post("hidden/toggle_hide_story.php",
+      {
+        story_id:<?php echo $story_id;?>,
+        bool:1
+      }
+)});
+
   $(".vote").on("click", function(){
+      if ($(this).attr('id') == 'up') var value = true;
+      else var value = '0';
 
-    if ($(this).attr('id') == 'up') var value = true;
-    else var value = '0';
-
-    $.post("vote_story.php",
-    {
-      story_id:<?php echo $story_id;?>,
-      vote:value
-    },
-    function(data,status){
-    document.getElementById("total_votes").innerHTML = parseInt(document.getElementById("total_votes").innerHTML)+parseInt(data);  
-    }
+      $.post("vote_story.php",
+      {
+        story_id:<?php echo $story_id;?>,
+        vote:value
+      },
+      function(data,status){
+      document.getElementById("total_votes").innerHTML = parseInt(document.getElementById("total_votes").innerHTML)+parseInt(data);  
+      }
 )
 });
 
   $(".genre_tag").on("click", function(){
+  
+  if(<?php echo $_SESSION['id'].'=='.$row['author_ID']?>){
 
-  if ($(this).attr('id') == 'up') var value = true;
-  else var value = '0';
+    if ($(this).attr('id') == 'up') var value = true;
+    else var value = '0';
+    
+    $(this).attr('hidden', true);
+    $.post("hidden/remove_genre.php",
+    {
+      story_id:<?php echo $story_id;?>,
+      genre:$(this).attr('value')
+    }
+  )
+}});
 
-  $.post("hidden/remove_genre.php",
-  {
-    story_id:<?php echo $story_id;?>,
-    genre:$(this).attr('value')
-  },
-  function(data,status){
-  document.getElementById("total_votes").innerHTML = parseInt(document.getElementById("total_votes").innerHTML)+parseInt(data);  
-  }
-)
-});
-
+  $("#delete").on("click", function(){
+    
+    $.get("hidden/delete_story.php?id=<?php echo $story_id ?>");     
+    });
 });
 
 </script>
@@ -125,9 +153,9 @@ $(document).ready(function(){
         <div class="col-sm-5 align-self-center">
           <div class="row justify-content-center align-self-center">
                 <?php
-                  if($row['thumbnail']){
+                  if($row['thumbnail_path']){
                     header("Contet-type: image/png");
-                    echo '<img class="img-thumbnail img-fluid img-responsive" src="data:image/png;base64, '.base64_encode($row['thumbnail']).'">';
+                    echo '<img class="img-thumbnail img-fluid img-responsive" src="pictures/stories/'.$story_id.'">';
                   }
                   else
                     echo '<img src="https://www.utas.edu.au/__data/assets/image/0013/210811/varieties/profile_image.png">';
@@ -156,13 +184,22 @@ $(document).ready(function(){
     </div>
     <div class="row pt-5">
         <div class="col-sm-6">
-        <?php echo $row['language'] ?>
+        <?php echo $row['language']; ?>
         </div>
         <div class="col-sm-3">
-          DELETE
+          <?php 
+            if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || $_SESSION['id'] == $row['author_ID'])){
+              echo '<a class="col-sm-1" href="index.php"><div class="col-sm-1" id = delete value = delete>DELETE</div></a>';
+            }
+          ?>
         </div>
         <div class="col-sm-3">
-          HIDE
+          <?php
+            if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')))){
+              echo '<button class="hide" id="hide">Hide</button>';
+              echo '<button class="show" id="show" hidden>Show</button>';
+            }
+          ?>
         </div>
     </div>
     <div class="row pt-4">
