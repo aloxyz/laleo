@@ -32,7 +32,7 @@ create table stories(
    pubblication_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    total_votes INT NOT NULL DEFAULT 0,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
-   thumbnail MEDIUMBLOB DEFAULT NULL,
+   thumbnail_path VARCHAR(30) DEFAULT NULL,
    language VARCHAR(15) NOT NULL,
    author varchar(15) NOT NULL,
    PRIMARY KEY (story_ID),

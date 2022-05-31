@@ -18,6 +18,7 @@
             $error .="Title can't be empty<br>";
         }
 
+        print_r($image);
         #checks on image
         if($image['size']){   #if a file was uploaded
             $maxSize   = 3 * 1024 * 1024; #3 MB
@@ -25,11 +26,10 @@
                 $error.="The image is too big<br>";
             }
 
-            $accepted_types = array("image/jpeg", "image/png");
+            $accepted_types = array("image/png");
             if($image['size']!=0 && !in_array($image['type'], $accepted_types)){
                 $error .= "Format not supported<br>";
             }
-            $image = $conn->real_escape_string(file_get_contents($image['tmp_name']));
         }
         else{
             $image = NULL;
@@ -65,20 +65,28 @@
 
         if($error == ""){
             $nickname = $_SESSION['nickname'];
-            $sql = "INSERT INTO stories (title, author, thumbnail, language) 
-                    VALUES (?,?,?,?)";
+            $sql = "INSERT INTO stories (title, author, language) 
+                    VALUES (?,?,?)";
             $query = $conn->prepare($sql);
-            $query -> bind_param('ssbs', $title, $nickname, $image, $language);
+            $query -> bind_param('sss', $title, $nickname, $language);
             $query->execute();
             
             $story_id = $conn->insert_id;
+            if ($image != NULL){
+                $path = "pictures/stories/".$story_id;
+                move_uploaded_file($image['tmp_name'], $path);
+                $sql = "UPDATE stories SET thumbnail_path = '$path' WHERE story_ID=".$story_id;
+                $conn->query($sql);
+            }
+
+
             foreach ($genres as $genre) {
                 $genre = $conn->real_escape_string($genre);
                 $sql = "INSERT INTO genres_stories (genre_name, story_ID) 
                     VALUES ('$genre','$story_id')";
                 $conn->query($sql);
             }
-            header("location: story.php?=".$story_id); #goes to page with id returned from last query
+            header("location: story.php?id=".$story_id); #goes to page with id returned from last query
         }
      }
 ?>
