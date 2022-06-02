@@ -39,16 +39,21 @@
         else{
             $error .= "Nickname invalid<br>";
         }
+        if($_POST["birthdate"] != ""){
+            $today = date("Y-m-d");
+            $diff = date_diff(date_create($today), date_create($_POST["birthdate"]));        
 
-        $today = date("Y-m-d");
-        $diff = date_diff(date_create($today), date_create($_POST["birthdate"]));        
-
-        if ($diff->format('%y') < 12) {
-            $error .= "You must be at least 12 years old";
+            if ($diff->format('%y') < 12) {
+                $error .= "You must be at least 12 years old";
+            }
+            else if($diff->format('%y') > 120){
+                $error .= "You should rest at that age!";
+            }
         }
-        else if($diff->format('%y') > 120){
-            $error .= "You should rest at that age!";
+        else{
+            $error.="You must state your age!";
         }
+        
 
         if ($error)
             $error = "Some fields are invalid:<br> $error";
@@ -66,10 +71,7 @@
             else
             $surname = "NULL";
 
-            if(!empty($_POST['birthdate']))
             $birthdate = $conn->real_escape_string($_POST['birthdate']);
-            else
-            $birthdate = "NULL";
 
             if(!empty($_POST['country']))
             $country = $conn->real_escape_string($_POST['country']);
