@@ -57,7 +57,7 @@ create table thoughts(
    content VARCHAR(4096) NOT NULL,
    pubblication_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
-   chapter_ID INT NOT NULL,
+   chapter_ID INT NOT NULL ON DELETE CASCADE,
    thought_padre_ID INT,
    author varchar(15),
    PRIMARY KEY (thought_ID),
