@@ -1,5 +1,6 @@
 <?php 
     require_once('conn.php'); 
+    require_once('hidden/functions.php');
     session_start();
 
     if(!(isset($_SESSION['id'])))
@@ -14,7 +15,7 @@
         $error = "";
 
         #check on title
-        if($title == ""){
+        if(isset($title)){
             $error .="Title can't be empty<br>";
         }
 
@@ -50,17 +51,7 @@
             $error.= "You must choose at least one genre<br>";
         }
         else{
-            $sql = "SELECT genre_name FROM genres";
-            $result = $conn->query($sql);
-            while($genre = $result -> fetch_array(MYSQLI_ASSOC)){
-                $existing_genres[] = $genre;                        #obtains all result from query in the form Array("genre_name"=>$genrename)
-            }
-        
-            foreach ($genres as $genre) {
-                if(!(in_array(array("genre_name"=>$genre), $existing_genres))){    
-                    $error.="Genre".$genre."doesn't exist<br>";
-                } 
-            } 
+            $error = verify_genres($genres);
         }
 
         if($error == ""){
@@ -79,13 +70,7 @@
                 $conn->query($sql);
             }
 
-
-            foreach ($genres as $genre) {
-                $genre = $conn->real_escape_string($genre);
-                $sql = "INSERT INTO genres_stories (genre_name, story_ID) 
-                    VALUES ('$genre','$story_id')";
-                $conn->query($sql);
-            }
+            add_story_genres($story_id, $genres);
             header("location: story.php?id=".$story_id); #goes to page with id returned from last query
         }
      }
@@ -124,14 +109,15 @@
                 </select>
                 </div>
                 <div class="col-sm">
-                <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>';
+                <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>
             <?php
                 $sql = 'SELECT genre_name FROM genres';
                 if($result = $conn->query($sql))
                     while ($genre = $result->fetch_array(MYSQLI_ASSOC)){
                         echo'<option value='.$genre['genre_name'].'>'.$genre['genre_name'].'</option>';
                     }
-            ?>
+            ?>  
+                </select>
                 </div>
             </div>
             <div class="row">

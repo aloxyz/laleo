@@ -131,7 +131,7 @@ $(document).ready(function(){
         $hidden = $row['hidden_flag'];
         $author = $row['author'];
     
-        if($hidden || ($pubblication_time > time())) #checks if hidden to the public
+        if($hidden || (strtotime($pubblication_time) > time())) #checks if hidden to the public
             #checks if current user isn't moderator nor admin nor author
             if($_SESSION['role'] == 'moderator' || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $author)
                 return true;
