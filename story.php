@@ -1,6 +1,6 @@
 <?php
     require_once("conn.php");
-    require_once("hidden/zone_moderator.php");
+    require_once("hidden/functions.php");
     session_start();
 
     $story_id = $conn->real_escape_string($_GET['id']);
@@ -22,16 +22,20 @@
         $row = $result->fetch_array(MYSQLI_ASSOC);
     
     if((!($row) || ($row['hidden_flag'] && !(zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || $_SESSION['id'] == $row['author_ID'])))){
-      echo "not found";
-      #header("location: hidden/story_not_found.html");
+      header("location: hidden/story_not_found.html");
     }
 
     $sql = "SELECT genre_name FROM genres_stories WHERE story_ID='$story_id'";
     if($result = $conn->query($sql)){
-        while($genres[] = $result->fetch_array(MYSQLI_ASSOC));
+        while($story_genres[] = $result->fetch_array(MYSQLI_ASSOC));
       }
 
-?>
+
+      if($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges() || $_SESSION['role']=='admin'))){   #adding genres
+        if(!(verify_genres_errors($_POST['genre'])))
+          add_story_genres($story_id, $_POST['genre'], $story_genres);
+      }
+?>  
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
@@ -53,10 +57,18 @@ $(document).ready(function(){
   });
 
 
-  $("#show").on("click", function(){
+  $("#show_story").on("click", function(){
 
-    $("#hide").attr('hidden', false);
-    $("#show").attr('hidden', true);
+    $("#hide_story").attr('hidden', false);
+    $("#show_story").attr('hidden', true);
+
+    $('.hide_chapter').each(function(){
+      $(this).attr('hidden', false);
+    })
+
+    $('.show_chapter').each(function(){
+      $(this).attr('hidden', true);
+    })
 
     $.post("hidden/toggle_hide_story.php",
       {
@@ -65,10 +77,18 @@ $(document).ready(function(){
       }
 )});
 
-  $("#hide").on("click", function(){
+  $("#hide_story").on("click", function(){
 
-    $("#show").attr('hidden', false);
-    $("#hide").attr('hidden', true);   
+    $("#show_story").attr('hidden', false);
+    $("#hide_story").attr('hidden', true);
+    
+    $('.hide_chapter').each(function(){
+      $(this).attr('hidden', true);
+    })
+
+    $('.show_chapter').each(function(){
+      $(this).attr('hidden', false);
+    })
 
     $.post("hidden/toggle_hide_story.php",
       {
@@ -94,13 +114,10 @@ $(document).ready(function(){
 
   $(".genre_tag").on("click", function(){
   
-  if(<?php echo $_SESSION['id'].'=='.$row['author_ID']?>){
+  if(<?php echo $_SESSION['id'].'=='.$row['author_ID'].'||'.verify_mod_admin_privileges($row['language'])?>){
 
-    if ($(this).attr('id') == 'up') var value = true;
-    else var value = '0';
-    
     $(this).attr('hidden', true);
-    $.post("hidden/remove_genre.php",
+    $.post("hidden/remove_story_genre.php",
     {
       story_id:<?php echo $story_id;?>,
       genre:$(this).attr('value')
@@ -108,11 +125,47 @@ $(document).ready(function(){
   )
 }});
 
-  $("#delete").on("click", function(){
+  $("#delete_story").on("click", function(){
     
     $.get("hidden/delete_story.php?id=<?php echo $story_id ?>");     
     });
+
+$(".show_chapter").on("click", function(){
+
+  var chapter_ID = $(this).attr('id');
+$("#"+chapter_ID+".hide_chapter").attr('hidden', false);
+$("#"+chapter_ID+".show_chapter").attr('hidden', true);
+
+$.post("hidden/toggle_hide_chapter.php",
+  {
+    chapter_id:chapter_ID,
+    bool:0
+  }
+)});
+
+$(".hide_chapter").on("click", function(){
+
+  var chapter_ID = $(this).attr('id');
+$("#"+chapter_ID+".hide_chapter").attr('hidden', true);
+$("#"+chapter_ID+".show_chapter").attr('hidden', false);
+
+$.post("hidden/toggle_hide_chapter.php",
+  {
+    chapter_id:chapter_ID,
+    bool:1
+  }
+)});
+
+$(".delete_chapter").on("click", function(){
+    
+    var chapter_id = $(this).attr('id');
+    $('.row.chapter.'+chapter_id).attr('hidden', true);
+    $.get("hidden/delete_chapter.php?id="+chapter_id);     
+    });
+
 });
+
+
 
 </script>
 
@@ -189,33 +242,116 @@ $(document).ready(function(){
         <div class="col-sm-3">
           <?php 
             if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || $_SESSION['id'] == $row['author_ID'])){
-              echo '<a class="col-sm-1" href="index.php"><div class="col-sm-1" id = delete value = delete>DELETE</div></a>';
+              echo '<a class="col-sm-1" href="index.php"><div class="col-sm-1" id ="delete_story" value = delete>DELETE</div></a>';
             }
           ?>
         </div>
         <div class="col-sm-3">
           <?php
             if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')))){
-              echo '<button class="hide" id="hide">Hide</button>';
-              echo '<button class="show" id="show" hidden>Show</button>';
+              if($row['hidden_flag'] == false){
+                echo '<button class="hide" id="hide_story">Hide</button>';
+                echo '<button class="show" id="show_story" hidden>Show</button>';
+              }
+              else{
+                echo '<button class="hide" id="hide_story" hidden>Hide</button>';
+                echo '<button class="show" id="show_story">Show</button>';
+              }
             }
           ?>
         </div>
     </div>
     <div class="row pt-4">
-        <?php if($_SESSION['id'] == $row['author_ID'])
-            echo "Click on a genre to delete it";
+        <?php if($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges() || $_SESSION['role']=='admin')
+            echo '<div class="col-sm-6">Click on a genre to delete it</div>';
+            echo '<div class="col-sm-6">
+                  <label for="genre">Add new genres</label>
+                  <form method="post">
+                  <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>';
+                    $sql = 'SELECT genre_name FROM genres';
+                    if($result = $conn->query($sql))
+                        while ($new_genre = $result->fetch_array(MYSQLI_ASSOC)){
+                        echo'<option value='.$new_genre['genre_name'].'>'.$new_genre['genre_name'].'</option>';
+                    }
+            echo    '</select>
+                  <div class="row"><input class="button" type="submit" value="Add Genres"></div>
+                  </form>
+                  </div>';
         ?>
     </div>
     <div class="row pt-4">
       <?php 
-        foreach($genres as $genre){
+        foreach($story_genres as $genre){
+          if($genre['genre_name']!='')
         echo '<div class="col-sm-1 genre_tag" value='.$genre['genre_name'] .'>
         '.$genre['genre_name'] .'
         </div>';
         }
       ?>
       </div>
+
+      <?php
+      if($_SESSION['nickname'] == $row['author_nickname'])
+        echo '<div class="row pt-4"><a href="create_chapter.php">New Chapter</a></div>';
+      ?>        
+
+      <?php #what chapters to show to who can see hidden chapters
+      if(zone_moderator($row['language']) || $_SESSION['role']=="admin" || row['author_nickname'] == $_SESSION['nickname']){
+            echo '<div class="row pt-4">
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-4">Title</div>
+                  <div class="col-sm-4">Total Votes</div>
+                  </div>';
+            
+            $sql = "SELECT title, total_votes, hidden_flag, chapter_ID FROM chapters WHERE story_ID='$story_id'";
+            if($result = $conn->query($sql))
+                    while ($chapter = $result->fetch_array(MYSQLI_ASSOC)){
+                        echo'<div class="row chapter '.$chapter['chapter_ID'].'"">
+                                <div class="col-sm-2">';
+                              if(zone_moderator($row['language']) || $_SESSION['role']=="admin"){
+                                if($chapter['hidden_flag'] == false){
+                                echo '<button class="hide_chapter" id="'.$chapter['chapter_ID'].'">Hide</button>';
+                                echo '<button class="show_chapter" id="'.$chapter['chapter_ID'].'" hidden>Show</button>';
+                                }
+                                else{
+                                  echo '<button class="hide_chapter" id="'.$chapter['chapter_ID'].'" hidden>Hide</button>';
+                                  echo '<button class="show_chapter" id="'.$chapter['chapter_ID'].'">Show</button>';
+                                }
+                              }
+                        echo'</div>';
+                        echo'   <div class="col-sm-2">
+                                <button class="delete_chapter" id="'.$chapter['chapter_ID'].'">Delete</button>
+                                </div>';
+                        echo'   <div class="col-sm-4">
+                                    <a href="chapter.php?id='.$chapter['chapter_ID'].'">'.$chapter['title'].'</a> 
+                                </div>
+                                <div class="col-sm-4">
+                                    '.$chapter['total_votes'].'
+                                </div>
+                            </div>';
+                    }
+                  }
+            else{ #what to show to everyone else
+            echo '<div class="row pt-4">
+                    <div class="col-sm-3">Title</div>
+                    <div class="col-sm-6">Total Votes</div>
+                  </div>';
+            
+            $sql = "SELECT title, total_votes, chapter_ID FROM chapters WHERE story_ID='$story_id' AND hidden_flag=0";
+            if($result = $conn->query($sql))
+                    while ($chapter = $result->fetch_array(MYSQLI_ASSOC)){
+                        echo'<div class="row">
+                                <div class="col-sm-3">
+                                    <a href="chapter.php?id='.$chapter['chapter_ID'].'">'.$chapter['title'].'</a> 
+                                </div>
+                                <div class="col-sm-6">
+                                    '.$chapter['total_votes'].'
+                                </div>
+                            </div>';
+                    }
+                  }
+      ?>
   </div>
 </body>
 </html>
