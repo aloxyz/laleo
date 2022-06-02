@@ -58,7 +58,7 @@ create table thoughts(
    pubblication_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
    chapter_ID INT NOT NULL ON DELETE CASCADE,
-   thought_padre_ID INT,
+   thought_padre_ID INT ON DELETE CASCADE,
    author varchar(15),
    PRIMARY KEY (thought_ID),
    FOREIGN KEY (chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
