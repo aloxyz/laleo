@@ -11,13 +11,13 @@
 
     $sql = "SELECT 
             stories.author AS author_nickname
+            stories.language AS language
         FROM stories
         JOIN accounts
         ON stories.author = accounts.nickname
         WHERE stories.story_ID = '$story_id'";
-    echo $sql;
     $row = $conn->query($sql)->fetch_array(MYSQLI_ASSOC);
-    if($row['author_nickname'] == $account_nickname){
+    if($row['author_nickname'] == $account_nickname || zone_moderator($row['language'] || $_SESSION['role'] == "admin")){
         $sql = "SELECT * FROM genres_stories WHERE story_ID='$story_id' AND genre_name='$genre'";
         if($conn->query($sql)->num_rows){
             $sql = "DELETE FROM genres_stories WHERE story_ID = '$story_id' AND genre_name= '$genre'";

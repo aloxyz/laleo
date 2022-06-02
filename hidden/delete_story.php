@@ -1,6 +1,6 @@
 <?php 
     require_once("../conn.php");
-    require_once("zone_moderator.php");
+    require_once("functions.php");
     
     session_start();
 
@@ -11,7 +11,7 @@
     $sql = "SELECT language, author FROM stories WHERE stories.story_ID = '$story_id'";
     $row = $conn->query($sql)->fetch_array(MYSQLI_ASSOC);
 
-    if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || !(strcmp($_SESSION['nickname'], $row['author_nickname'])))){
+    if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || !(strcmp($_SESSION['nickname'], $row['author'])))){
         $sql = "DELETE FROM stories WHERE story_ID = '$story_id'";
         $conn->query($sql);
     }
