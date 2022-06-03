@@ -29,8 +29,8 @@
         else
             $pubblication_time = date("Y-m-d H:i:s");
         
-        $nickname = $_SESSION['nickname'];
-        $sql = "SELECT stories.title FROM stories WHERE story_ID='$story_ID' AND author='$nickname'";
+        $account_id = $_SESSION['id'];
+        $sql = "SELECT stories.title FROM stories WHERE story_ID='$story_ID' AND author_ID='$account_id'";
         if($result = $conn->query($sql))
             if(!($result->num_rows)){
                 $error .= "This story doesn't exist or you're not its author";
@@ -74,8 +74,8 @@
                 <p>Select story</p>
                 <select name="story_ID" autocomplete>
                 <?php
-                    $author_nickname = $_SESSION['nickname'];
-                    $sql = "SELECT stories.title, stories.story_ID FROM stories WHERE author= '$author_nickname'";
+                    $author_id = $_SESSION['id'];
+                    $sql = "SELECT stories.title, stories.story_ID FROM stories WHERE author_ID= '$author_id'";
                     if($result = $conn->query($sql))
                     while ($story = $result->fetch_array(MYSQLI_ASSOC)){
                         echo'<option value='.$story['story_ID'].'>'.$story['title'].'</option>';

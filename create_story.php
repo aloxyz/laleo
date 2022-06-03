@@ -51,15 +51,15 @@
             $error.= "You must choose at least one genre<br>";
         }
         else{
-            $error = verify_genres($genres);
+            $error = verify_genres_errors($genres);
         }
 
         if($error == ""){
-            $nickname = $_SESSION['nickname'];
-            $sql = "INSERT INTO stories (title, author, language) 
+            $author_id = $_SESSION['id'];
+            $sql = "INSERT INTO stories (title, author_id, language) 
                     VALUES (?,?,?)";
             $query = $conn->prepare($sql);
-            $query -> bind_param('sss', $title, $nickname, $language);
+            $query -> bind_param('sss', $title, $author_id, $language);
             $query->execute();
             
             $story_id = $conn->insert_id;

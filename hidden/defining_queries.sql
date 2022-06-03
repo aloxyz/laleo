@@ -15,7 +15,7 @@ create table accounts(
    registration_date DATE,
    role VARCHAR(10) NOT NULL,
    PRIMARY KEY (account_ID),
-   FOREIGN KEY (role) REFERENCES roles(role_name),
+   FOREIGN KEY (role) REFERENCES roles(role_name) ON DELETE SET NULL,
    UNIQUE (email),
    UNIQUE (nickname)
 );
@@ -36,8 +36,8 @@ create table stories(
    language VARCHAR(15) NOT NULL,
    author varchar(15) NOT NULL,
    PRIMARY KEY (story_ID),
-   FOREIGN KEY (language) REFERENCES languages(language_name),
-   FOREIGN KEY (author) REFERENCES accounts(nickname) ON DELETE CASCADE
+   FOREIGN KEY (language) REFERENCES languages(language_name) ON DELETE SET NULL,
+   FOREIGN KEY (author_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE
 );
 
 create table chapters(
@@ -84,7 +84,7 @@ create table accounts_stories(
    story_ID INT,
    PRIMARY KEY(account_ID, story_ID),
    FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
-   FOREIGN KEY(story_ID) REFERENCES stories(story_ID)
+   FOREIGN KEY(story_ID) REFERENCES stories(story_ID) ON DELETE CASCADE
 );
 
 create table accounts_genres(

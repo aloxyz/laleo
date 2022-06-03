@@ -5,19 +5,18 @@
 
     $story_id = $conn->real_escape_string($_GET['id']);
     $sql = "SELECT 
-            stories.author AS author_nickname, 
+            stories.author_ID AS author_ID,
+            accounts.nickname AS author_nickname,
             stories.title AS story_title,
             stories.hidden_flag AS hidden_flag,
             stories.total_votes AS total_votes,
             stories.chapters_number AS chapters_number,
             stories.thumbnail_path AS thumbnail_path,
-            stories.language AS language,
-            accounts.account_ID AS author_ID
+            stories.language AS language
         FROM stories
         JOIN accounts
-        ON stories.author = accounts.nickname
+        ON stories.author_ID = accounts.account_ID
         WHERE stories.story_ID = '$story_id'";
-
     if($result = $conn->query($sql))
         $row = $result->fetch_array(MYSQLI_ASSOC);
     
@@ -114,7 +113,7 @@ $(document).ready(function(){
 
   $(".genre_tag").on("click", function(){
   
-  if(<?php echo $_SESSION['id'].'=='.$row['author_ID'].'||'.verify_mod_admin_privileges($row['language'])?>){
+  if(<?php echo $_SESSION['id'].'=='.$row['author_ID']?> || <?php echo verify_mod_admin_privileges($row['language']) ? 'true' : 'false';?>){
 
     $(this).attr('hidden', true);
     $.post("hidden/remove_story_genre.php",
@@ -296,7 +295,7 @@ $(".delete_chapter").on("click", function(){
       ?>        
 
       <?php #what chapters to show to who can see hidden chapters
-      if(zone_moderator($row['language']) || $_SESSION['role']=="admin" || row['author_nickname'] == $_SESSION['nickname']){
+      if(zone_moderator($row['language']) || $_SESSION['role']=="admin" || $row['author_nickname'] == $_SESSION['nickname']){
             echo '<div class="row pt-4">
                   <div class="col-sm-2"></div>
                   <div class="col-sm-2"></div>

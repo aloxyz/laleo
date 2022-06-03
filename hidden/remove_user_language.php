@@ -8,7 +8,7 @@
     $account_id = $conn->real_escape_string($account_id);
     $language = $conn->real_escape_string($language);
 
-    if($row['author_nickname'] == $account_nickname){
+    if($_SESSION['id'] == $account_id){
         $sql = "SELECT * FROM accounts_languages WHERE account_ID='$account_id' AND language_name='$language'";
         if($conn->query($sql)->num_rows){
             $sql = "DELETE FROM accounts_languages WHERE account_ID = '$account_id' AND language_name='$language'";
