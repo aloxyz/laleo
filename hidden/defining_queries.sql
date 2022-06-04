@@ -15,7 +15,7 @@ create table accounts(
    registration_date DATE,
    role VARCHAR(10) NOT NULL,
    PRIMARY KEY (account_ID),
-   FOREIGN KEY (role) REFERENCES roles(role_name) ON DELETE SET NULL,
+   FOREIGN KEY (role) REFERENCES roles(role_name),
    UNIQUE (email),
    UNIQUE (nickname)
 );
@@ -33,10 +33,10 @@ create table stories(
    total_votes INT NOT NULL DEFAULT 0,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
    thumbnail_path VARCHAR(30) DEFAULT NULL,
-   language VARCHAR(15) NOT NULL,
-   author varchar(15) NOT NULL,
+   language VARCHAR(15),
+   author_ID INT NOT NULL,
    PRIMARY KEY (story_ID),
-   FOREIGN KEY (language) REFERENCES languages(language_name) ON DELETE SET NULL,
+   FOREIGN KEY (language) REFERENCES languages(language_name),
    FOREIGN KEY (author_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE
 );
 
@@ -57,8 +57,8 @@ create table thoughts(
    content VARCHAR(4096) NOT NULL,
    pubblication_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
-   chapter_ID INT NOT NULL ON DELETE CASCADE,
-   thought_padre_ID INT ON DELETE CASCADE,
+   chapter_ID INT NOT NULL,
+   thought_padre_ID INT,
    author varchar(15),
    PRIMARY KEY (thought_ID),
    FOREIGN KEY (chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
@@ -74,8 +74,8 @@ create table genres(
 
 
 create table reactions(
-   reaction_code INT,
-   PRIMARY KEY(reaction_code)
+   reaction CHAR,
+   PRIMARY KEY(reaction)
 );
 
 
@@ -114,21 +114,21 @@ create table accounts_languages(
 create table thoughts_accounts_reactions(
    thought_ID INT,
    account_ID INT,
-   reaction_code INT,   
-   PRIMARY KEY(thought_ID, account_ID, reaction_code),
+   reaction CHAR,   
+   PRIMARY KEY(thought_ID, account_ID, reaction),
    FOREIGN KEY(thought_ID) REFERENCES thoughts(thought_ID) ON DELETE CASCADE,
    FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
-   FOREIGN KEY(reaction_code) REFERENCES reactions(reaction_code) ON DELETE CASCADE
+   FOREIGN KEY(reaction) REFERENCES reactions(reaction) ON DELETE CASCADE
 );
 
 create table chapters_accounts_reactions(
    chapter_ID INT,
    account_ID INT,
-   reaction_code INT,   
-   PRIMARY KEY(chapter_ID, account_ID, reaction_code),
+   reaction CHAR,   
+   PRIMARY KEY(chapter_ID, account_ID, reaction),
    FOREIGN KEY(chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
    FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
-   FOREIGN KEY(reaction_code) REFERENCES reactions(reaction_code) ON DELETE CASCADE
+   FOREIGN KEY(reaction) REFERENCES reactions(reaction) ON DELETE CASCADE
 );
 
 create table moderators_languages(
@@ -172,3 +172,6 @@ INSERT INTO `roles` (`role_name`) VALUES ('admin');
 
 INSERT INTO `languages` (`language_name`) VALUES ('italian');
 INSERT INTO `languages` (`language_name`) VALUES ('english');
+
+INSERT INTO `roles` (`role_name`) VALUES ('Horror');
+INSERT INTO `roles` (`role_name`) VALUES ('Fantasy');
