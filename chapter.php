@@ -82,7 +82,7 @@
                     echo    '</div>
                                 <div class="reactions">';
                                 if (zone_moderator($row['language']) || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $thought['author'])
-                                    echo "<button>Delete</button>";
+                                    echo '<button id='.$thought['thought_ID'].'>Delete</button>';
                             
                             if(zone_moderator($row['language']) || $_SESSION['role']=="admin"){
                                 if($thought['hidden_flag'] == false){
@@ -201,6 +201,12 @@ $(".hide_thought").on("click", function(){
         bool:1
         }
     )});
+
+    $(".delete_thought").on("click", function(){
+    
+    var thought_id = $(this).attr('id');
+    $.get("hidden/delete_thought.php?id="+thought_id);     
+    });
 
 });
 
