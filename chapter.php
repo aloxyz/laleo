@@ -36,6 +36,32 @@
                 while($tmp = $result->fetch_array(MYSQLI_ASSOC))
                         $reactions[] = $tmp;
 
+
+            if($_POST['root_reply'] && $_POST['root_reply']!="" && $_SESSION){
+                try{
+                    $root_reply = $conn->real_escape_string($_POST['root_reply']);
+                    $sql = "INSERT INTO thoughts (content, chapter_ID, author) VALUES ('$root_reply','$chapter_ID','$_SESSION[nickname]')";
+                    $conn->query($sql);
+                }
+                catch(Exception $e){
+                    echo "Something went wrong";
+                }
+            }
+
+            if($_POST['thought_reply'] && $_POST['thought_reply']!="" && $_SESSION){
+                try{
+                    $thought_reply = $conn->real_escape_string($_POST['thought_reply']);
+                    $thought_padre_id = $conn->real_escape_string($_POST['thought_padre_id']);
+                    $sql = "INSERT INTO thoughts (content, chapter_ID, author, thought_padre_ID) VALUES ('$thought_reply','$chapter_ID','$_SESSION[nickname]','$thought_padre_id')";
+                    $conn->query($sql);
+                }
+                catch(Exception $e){
+                    echo "Something went wrong";
+                }
+            }
+                
+
+
             #get all thoughts of this chapter and builds thoughts tree
             $sql = "SELECT * FROM thoughts WHERE chapter_ID='$chapter_ID'";
             if($result = $conn->query($sql)){
@@ -82,7 +108,7 @@
                     echo    '</div>
                                 <div class="reactions">';
                                 if (zone_moderator($row['language']) || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $thought['author'])
-                                    echo '<button id='.$thought['thought_ID'].'>Delete</button>';
+                                    echo '<button class="delete_thought" id="'.$thought['thought_ID'].'">Delete</button>';
                             
                             if(zone_moderator($row['language']) || $_SESSION['role']=="admin"){
                                 if($thought['hidden_flag'] == false){
@@ -112,6 +138,14 @@
                                                 </div>';
                                 }
                             echo      '</div>
+                                    <button class="thought_comment_button" thought_id="'.$thought['thought_ID'].'">Reply</button>    
+                                    <div class="row pt-3" id="thought_reply'.$thought['thought_ID'].'" style="display:none">
+                                        <form method="post">
+                                            <textarea cols="80" rows="10" class="thought_comment" name="thought_reply"></textarea>
+                                            <input type="hidden" id="thought_id" name="thought_padre_id" value='.$thought['thought_ID'].'>
+                                            <input class="button" type="submit" value="Comment">              
+                                        </form>
+                                    </div>
                                     </div>
                                 </div>';
                       if (!empty($thought['children'])) {
@@ -189,7 +223,7 @@ $(document).ready(function(){
         }
     )});
 
-$(".hide_thought").on("click", function(){
+    $(".hide_thought").on("click", function(){
 
         var thought_ID = $(this).attr('id');
         $("#"+thought_ID+".hide_thought").attr('hidden', true);
@@ -205,8 +239,19 @@ $(".hide_thought").on("click", function(){
     $(".delete_thought").on("click", function(){
     
     var thought_id = $(this).attr('id');
-    $.get("hidden/delete_thought.php?id="+thought_id);     
+    $.get("hidden/delete_thought.php?id="+thought_id);
     });
+
+    $(".chapter_comment_button").on("click", function(){
+    
+        $('#chapter_comment').toggle();
+    });
+
+    $(".thought_comment_button").on("click", function(){
+    
+    var thought_id = $(this).attr("thought_id"); 
+    $('#thought_reply'+thought_id).toggle();
+});
 
 });
 
@@ -245,6 +290,13 @@ $(".hide_thought").on("click", function(){
                             </div>';
                 }
             ?>
+            </div>
+            <button class="chapter_comment_button">Reply</button>    
+            <div class="row pt-3" id="chapter_comment" style="display:none">
+                <form method="post">
+                    <textarea cols="80" rows="10" class="chapter_comment" name="root_reply"></textarea>
+                    <input class="button" type="submit" value="Comment">                
+                </form>
             </div>
         </div>
         <div chap_id=<?php echo $_GET['id'];?>><button class="vote" id="up">UP</button></div>
