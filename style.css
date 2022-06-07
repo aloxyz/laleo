@@ -36,7 +36,7 @@ body {
     justify-content: space-between;
     align-items: center;
 
-    background-color: var(--white-dark);
+    background-color: var(--white);
     box-shadow: 0 0 1.5em var(--shadow);
   }
 
@@ -72,8 +72,8 @@ input[type=text], input[type=password], input[type=date], input[type=submit]{
     width: 20em;
 }
 
-.navsearch input[type=text] {
-    width: 20em;
+.navsearch {
+    width: 80%;
 }
 
 .formbox {

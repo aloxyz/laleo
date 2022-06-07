@@ -27,10 +27,12 @@
             ?>
         </div>
     </div>
-
-    <form method="post">
-            <input class="navsearch" type="text" placeholder="Search on Lalèo">
-    </form>
+        <div class="feed-header">
+            <form method="post">
+                <input class="navsearch" type="text" placeholder="Search on Lalèo">
+            </form>
+        </div>
+    
     <div class="feed">
         <div class="box">
             <div class="post-head">
