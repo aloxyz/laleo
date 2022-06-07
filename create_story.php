@@ -1,5 +1,6 @@
 <?php 
     require_once('conn.php'); 
+    require_once('hidden/functions.php');
     session_start();
 
     if(!(isset($_SESSION['id'])))
@@ -14,10 +15,11 @@
         $error = "";
 
         #check on title
-        if($title == ""){
+        if(isset($title)){
             $error .="Title can't be empty<br>";
         }
 
+        print_r($image);
         #checks on image
         if($image['size']){   #if a file was uploaded
             $maxSize   = 3 * 1024 * 1024; #3 MB
@@ -25,11 +27,10 @@
                 $error.="The image is too big<br>";
             }
 
-            $accepted_types = array("image/jpeg", "image/png");
+            $accepted_types = array("image/png");
             if($image['size']!=0 && !in_array($image['type'], $accepted_types)){
                 $error .= "Format not supported<br>";
             }
-            $image = $conn->real_escape_string(file_get_contents($image['tmp_name']));
         }
         else{
             $image = NULL;
@@ -50,35 +51,27 @@
             $error.= "You must choose at least one genre<br>";
         }
         else{
-            $sql = "SELECT genre_name FROM genres";
-            $result = $conn->query($sql);
-            while($genre = $result -> fetch_array(MYSQLI_ASSOC)){
-                $existing_genres[] = $genre;                        #obtains all result from query in the form Array("genre_name"=>$genrename)
-            }
-        
-            foreach ($genres as $genre) {
-                if(!(in_array(array("genre_name"=>$genre), $existing_genres))){    
-                    $error.="Genre".$genre."doesn't exist<br>";
-                } 
-            } 
+            $error = verify_genres_errors($genres);
         }
 
         if($error == ""){
-            $nickname = $_SESSION['nickname'];
-            $sql = "INSERT INTO stories (title, author, thumbnail, language) 
-                    VALUES (?,?,?,?)";
+            $author_id = $_SESSION['id'];
+            $sql = "INSERT INTO stories (title, author_id, language) 
+                    VALUES (?,?,?)";
             $query = $conn->prepare($sql);
-            $query -> bind_param('ssbs', $title, $nickname, $image, $language);
+            $query -> bind_param('sss', $title, $author_id, $language);
             $query->execute();
             
             $story_id = $conn->insert_id;
-            foreach ($genres as $genre) {
-                $genre = $conn->real_escape_string($genre);
-                $sql = "INSERT INTO genres_stories (genre_name, story_ID) 
-                    VALUES ('$genre','$story_id')";
+            if ($image != NULL){
+                $path = "pictures/stories/".$story_id;
+                move_uploaded_file($image['tmp_name'], $path);
+                $sql = "UPDATE stories SET thumbnail_path = '$path' WHERE story_ID=".$story_id;
                 $conn->query($sql);
             }
-            header("location: story.php?=".$story_id); #goes to page with id returned from last query
+
+            add_story_genres($story_id, $genres);
+            header("location: story.php?id=".$story_id); #goes to page with id returned from last query
         }
      }
 ?>
@@ -116,14 +109,15 @@
                 </select>
                 </div>
                 <div class="col-sm">
-                <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>';
+                <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>
             <?php
                 $sql = 'SELECT genre_name FROM genres';
                 if($result = $conn->query($sql))
                     while ($genre = $result->fetch_array(MYSQLI_ASSOC)){
                         echo'<option value='.$genre['genre_name'].'>'.$genre['genre_name'].'</option>';
                     }
-            ?>
+            ?>  
+                </select>
                 </div>
             </div>
             <div class="row">

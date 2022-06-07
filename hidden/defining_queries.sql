@@ -15,7 +15,7 @@ create table accounts(
    registration_date DATE,
    role VARCHAR(10) NOT NULL,
    PRIMARY KEY (account_ID),
-   FOREIGN KEY (role) REFERENCES roles(role_name),
+   FOREIGN KEY (role) REFERENCES roles(role_name) ON DELETE SET NULL,
    UNIQUE (email),
    UNIQUE (nickname)
 );
@@ -32,12 +32,12 @@ create table stories(
    pubblication_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    total_votes INT NOT NULL DEFAULT 0,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
-   thumbnail MEDIUMBLOB DEFAULT NULL,
+   thumbnail_path VARCHAR(30) DEFAULT NULL,
    language VARCHAR(15) NOT NULL,
    author varchar(15) NOT NULL,
    PRIMARY KEY (story_ID),
-   FOREIGN KEY (language) REFERENCES languages(language_name),
-   FOREIGN KEY (author) REFERENCES accounts(nickname) ON DELETE CASCADE
+   FOREIGN KEY (language) REFERENCES languages(language_name) ON DELETE SET NULL,
+   FOREIGN KEY (author_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE
 );
 
 create table chapters(
@@ -57,8 +57,8 @@ create table thoughts(
    content VARCHAR(4096) NOT NULL,
    pubblication_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    hidden_flag BOOL NOT NULL DEFAULT FALSE,
-   chapter_ID INT NOT NULL,
-   thought_padre_ID INT,
+   chapter_ID INT NOT NULL ON DELETE CASCADE,
+   thought_padre_ID INT ON DELETE CASCADE,
    author varchar(15),
    PRIMARY KEY (thought_ID),
    FOREIGN KEY (chapter_ID) REFERENCES chapters(chapter_ID) ON DELETE CASCADE,
@@ -84,7 +84,7 @@ create table accounts_stories(
    story_ID INT,
    PRIMARY KEY(account_ID, story_ID),
    FOREIGN KEY(account_ID) REFERENCES accounts(account_ID) ON DELETE CASCADE,
-   FOREIGN KEY(story_ID) REFERENCES stories(story_ID)
+   FOREIGN KEY(story_ID) REFERENCES stories(story_ID) ON DELETE CASCADE
 );
 
 create table accounts_genres(
