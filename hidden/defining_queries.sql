@@ -173,5 +173,5 @@ INSERT INTO `roles` (`role_name`) VALUES ('admin');
 INSERT INTO `languages` (`language_name`) VALUES ('italian');
 INSERT INTO `languages` (`language_name`) VALUES ('english');
 
-INSERT INTO `roles` (`role_name`) VALUES ('Horror');
-INSERT INTO `roles` (`role_name`) VALUES ('Fantasy');
+INSERT INTO `genres` (`genre_name`) VALUES ('Horror');
+INSERT INTO `genres` (`genre_name`) VALUES ('Fantasy');
