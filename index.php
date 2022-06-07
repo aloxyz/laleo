@@ -15,20 +15,22 @@
 <body>
     <div class="navbar">
         <a class="textlogo" href="#">Lalèo</p>
-        <form method="post">
-            <input class="navsearch" type="text" placeholder="Search on Lalèo">
-        </form>
-        <?php if (empty($_SESSION['role'])){
-        echo '<a class="link" href="login.php">Login</a>';
-        echo '<a class="link" href="signup.php">Signup</a>';
-        }
-        else{
-            echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
-            echo '<a class="link" href="logout.php">Logout</a>';
-        }
-        ?>
+        <div class="navlinks">
+            <?php if (empty($_SESSION['role'])){
+            echo '<a class="link" href="login.php">Login</a>';
+            echo '<a class="link" href="signup.php">Signup</a>';
+            }
+            else{
+                echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
+                echo '<a class="link" href="logout.php">Logout</a>';
+            }
+            ?>
+        </div>
     </div>
 
+    <form method="post">
+            <input class="navsearch" type="text" placeholder="Search on Lalèo">
+    </form>
     <div class="feed">
         <div class="box">
             <div class="post-head">
