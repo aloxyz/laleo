@@ -102,13 +102,13 @@
 </head>
 <body>
     <a class="textlogo" href="index.php">Lalèo</a>
-    <?php echo $error; ?>
-    <form class="formbox" method="post">
+    <form class="formbox box" method="post">
         <p class="title">Account registration</p>
         <a class="link" href="login.php">Click here to log in an existing account</a>
         <div>
             <p>*: optional</p>    
         </div>
+        <?php echo '<p class="error">'.$error.'</p>'; ?>
         <ul>
             <li>
                 <p>Email</p>

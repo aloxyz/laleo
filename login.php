@@ -2,6 +2,7 @@
     require_once('conn.php');
     session_start();
 
+
     if($_POST){
         $errore = "";
         $nickname = $conn->real_escape_string($_POST['nickname']);
@@ -40,15 +41,17 @@
 <body>
     <a class="textlogo" href="index.php">Lalèo</a>
 
-    <?php echo $error; ?>
-    <form class="formbox" method="post">
+    <form class="formbox box centerbox" method="post">
         <p class="title">Login</p>
+        <?php echo '<p class="error">'.$error.'</p>'; ?>
         <input class="form" type="text" name="nickname" placeholder="Nickname" value=<?php echo $_POST['nickname']; ?>>
         <input class="form" type="password" name="password" placeholder="Password" value=<?php echo $_POST['password']; ?>>
         
         <input class="button" type="submit" value="Login">
+        <p>or</p>
+        <a class="link" href="signup.php">Sign up for an account</a>
     </form>
 
-    <a class="link" href="signup.php">Sign up for an account</a>
+    
 </body>
 </html>
