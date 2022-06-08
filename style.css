@@ -26,6 +26,12 @@ body {
     font-size: 1.5em;
 }
 
+.subtitle {
+    color: var(--orange);
+    font-weight: bold;
+    font-size: 1em;
+}
+
 .thoughts .title {
     margin-left: 3em;
 }
@@ -71,6 +77,14 @@ input[type=text], input[type=password], input[type=date], input[type=submit]{
 .formbox input[type=text], input[type=password], input[type=date], input[type=submit] {
     width: 20em;
 }
+.edit-profile input[type=text], input[type=password], input[type=date], input[type=submit] {
+    width: 20em;
+}
+
+label,input{
+    display:flex;
+    flex-direction:column;
+  }
 
 .navsearch {
     width: 80%;
@@ -86,12 +100,25 @@ input[type=text], input[type=password], input[type=date], input[type=submit]{
     background-color: var(--orange);
     color: var(--white);
     margin-top: 2em;
+    font-size: 1em; 
+    width: auto;
 }
+
+a.button {
+    text-decoration: none;
+    background-color: var(--orange);
+    border-radius:5px;
+    color:#fff;
+    margin-right:10px;
+    padding:10px 10px 10px 10px;
+   }
+
 
 .button:hover {
     background-color: var(--orange-light);
     transition: 0.2s;
     cursor: pointer;
+    color:#fff;
 }
 
 
@@ -167,4 +194,39 @@ a:hover {
     white-space: nowrap;
     overflow: hidden; 
     text-overflow: ellipsis
+}
+
+.language-tag {
+    display: flex;
+}
+
+.profile-button {
+    width: auto;
+}
+
+.edit-profile {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 2em;
+    
+}
+
+.edit-profile-formbox {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.list-div {
+    margin-bottom: 2em;
 }

@@ -104,7 +104,7 @@
     <a class="textlogo" href="index.php">Lalèo</a>
     <?php echo $error; ?>
     <form class="formbox" method="post">
-        <p class="title">accounts registration</p>
+        <p class="title">Account registration</p>
         <a class="link" href="login.php">Click here to log in an existing account</a>
         <div>
             <p>*: optional</p>    
@@ -116,6 +116,7 @@
             </li>
             
             <li>
+                <p>Nickname</p>
                 <input class="form" type="text" name="nickname" placeholder="Nickname" value=<?php echo $_POST['nickname']; ?>>
             </li>
             
