@@ -261,7 +261,7 @@ $(".delete_chapter").on("click", function(){
         </div>
     </div>
     <div class="row pt-4">
-        <?php if($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges() || $_SESSION['role']=='admin')
+        <?php if($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges($row['language']) || $_SESSION['role']=='admin')
             echo '<div class="col-sm-6">Click on a genre to delete it</div>';
             echo '<div class="col-sm-6">
                   <label for="genre">Add new genres</label>

@@ -19,7 +19,6 @@
             $error .="Title can't be empty<br>";
         }
 
-        print_r($image);
         #checks on image
         if($image['size']){   #if a file was uploaded
             $maxSize   = 3 * 1024 * 1024; #3 MB
