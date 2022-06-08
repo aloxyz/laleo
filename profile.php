@@ -156,7 +156,7 @@ $(document).ready(function(){
                             <a class="btn btn-primary profile-button" href="followers.php?id=<?php echo $account_id;?>">Followers</a>
                         </div>
                         <div class="col-md-4">
-                        <a class="btn btn-primary profile-button" href="followed_users.php?id=<?php echo $account_id;?>">Followeds</a>
+                        <a class="btn btn-primary profile-button" href="followed_users.php?id=<?php echo $account_id;?>">Following</a>
                         </div>
 
                         <?php 
