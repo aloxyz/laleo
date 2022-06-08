@@ -81,52 +81,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
-    <title>Create story - Lalèo</title>
+    <title>Front page - Lalèo</title>
 </head>
 <body>
-    <a class="textlogo" href="index.php">Lalèo</a>
-    <?php echo '<br>'.$error; ?>
-    <div class="container rounded bg-white mt-5">
-    <form method="post" enctype="multipart/form-data">
-            <div class="row mt-2">
-                <input type="text" class="form-control" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
-                <input type="file" name="image">
+
+    <div class="navbar">
+        <a class="textlogo" href="#">Lalèo</p>
+            <input id="navsearch" type="text" placeholder="Search on Lalèo">
+        <div class="flex-row">
+            <div>
+                <a class="button" href="create_story.php">New story</a>
+                <a class="button" href="create_chapter.php">New chapter</a>
             </div>
-            <div class="row mt-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                <select name="language" id="language" class="form-select" autocomplete>';
-            <?php
-                $sql = 'SELECT language_name FROM languages';
-                if($result = $conn->query($sql))
-                    while ($language = $result->fetch_array(MYSQLI_ASSOC)){
-                        echo'<option value='.$language['language_name'].'>'.$language['language_name'].'</option>';
-                    }
-            ?>
-                </select>
-                </div>
-                <div class="col-sm">
-                <select name="genre[]" id="genre" class="form-select" multiple="multiple" autocomplete>
-            <?php
-                $sql = 'SELECT genre_name FROM genres';
-                if($result = $conn->query($sql))
-                    while ($genre = $result->fetch_array(MYSQLI_ASSOC)){
-                        echo'<option value='.$genre['genre_name'].'>'.$genre['genre_name'].'</option>';
-                    }
-            ?>  
-                </select>
-                </div>
+            <div class="navlinks">
+                <?php if (empty($_SESSION['role'])){
+                echo '<a class="link" href="login.php">Login</a>';
+                echo '<a class="link" href="signup.php">Signup</a>';
+                }
+                else{
+                    echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
+                    echo '<a class="link" href="logout.php">Logout</a>';
+                }
+                ?>
             </div>
-            <div class="row">
-                <div class="col-sm">
-                <input class="button" type="submit" value="Create Story">
-                </div>   
-            </div>
-        
         </div>
+    </div>
+
+    <?php echo '<br>'.$error; ?>
+    <div class="formbox centerbox">
+        <p class="title">Create a new story</p>
+    <form method="post" enctype="multipart/form-data">     
+        <ul>
+            <li>
+                <label for="title">Story title</label>
+                <input type="text" trol" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
+            </li>
+            <li>
+                <label for="image">Choose an image for your story</label>
+                <input type="file" name="image">
+            </li>
+            <li>
+                <label for="image">Select one or more genres</label>
+                <select name="genre[]" id="genre" multiple="multiple" autocomplete>
+                    <?php
+                        $sql = 'SELECT genre_name FROM genres';
+                        if($result = $conn->query($sql))
+                            while ($genre = $result->fetch_array(MYSQLI_ASSOC)){
+                                echo'<option value='.$genre['genre_name'].'>'.$genre['genre_name'].'</option>';
+                            }
+                    ?>  
+                </select>
+            </li>
+            <li>
+                <label for="image">Select the language the story is written in</label>
+                <select name="language" id="language" autocomplete>
+                    <?php
+                        $sql = 'SELECT language_name FROM languages';
+                        if($result = $conn->query($sql))
+                            while ($language = $result->fetch_array(MYSQLI_ASSOC)){
+                                echo'<option value='.$language['language_name'].'>'.$language['language_name'].'</option>';
+                            }
+                    ?>
+                </select>
+            </li>
+            <li>
+                <input class="button" type="submit" value="Create Story">
+            </li>
+        </ul>
     </form>
 </div>
 </body>

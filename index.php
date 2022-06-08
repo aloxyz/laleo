@@ -19,7 +19,7 @@
         <div class="flex-row">
             <div>
                 <a class="button" href="create_story.php">New story</a>
-                <a class="button" href="">New chapter</a>
+                <a class="button" href="create_chapter.php">New chapter</a>
             </div>
             <div class="navlinks">
                 <?php if (empty($_SESSION['role'])){
@@ -47,31 +47,20 @@
             
             <div class="post-head">
                 <p class="italic">01/02/2003</p>
-                <p class="react">63 ❤️</p>
+                <p class="react">16 ❤️</p>
             </div>
         </div>
 
+        
         <div class="box story">
             <div class="post-head">
                     <p class="post-title">Story title </p>
             <p class="italic">written in Language by <a>Author</a></p>
             </div>
-            <img src="https://nerdarchy.com/wp-content/uploads/2018/08/tavern-1024x551.jpg">
+                <img src="https://nerdarchy.com/wp-content/uploads/2018/08/tavern-1024x551.jpg">
             <div class="post-head">
                 <p class="italic">01/02/2003</p>
-                <p class="react">432 ❤️</p>
-            </div>
-        </div>
-
-        <div class="box story">
-            <div class="post-head">
-                    <p class="post-title">Story title </p>
-            <p class="italic">written in Language by <a>Author</a></p>
-            </div>
-            <img src="http://hdqwalls.com/wallpapers/old-city-fantasy-ux.jpg">
-            <div class="post-head">
-                <p class="italic">01/02/2003</p>
-                <p class="react">432 ❤️</p>
+                <p class="react">87 ❤️</p>
             </div>
         </div>
     </div>
