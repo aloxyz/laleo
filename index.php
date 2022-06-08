@@ -64,6 +64,12 @@
                 <p class="italic">01/02/2003</p>
                 <p class="react">87 ❤️</p>
             </div>
+            <div class="flex-row">
+                <p class="genre">Fantasy</p>
+                <p class="genre">Romance</p>
+                <p class="genre">Action</p>
+            </div>
+
         </div>
     </div>
 </body>

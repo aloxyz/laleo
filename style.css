@@ -229,6 +229,14 @@ a:hover {
     margin: .5em;
     padding: .4em;
 }
+
+.genre {
+    border-radius: 10px;
+    padding: .3em;
+    background-color: var(--orange-light);
+    margin-right: 1em;
+}
+
 .break-text p {
     white-space: nowrap;
     overflow: hidden; 
