@@ -17,16 +17,18 @@
         <a class="textlogo" href="#">Lalèo</p>
             <input id="navsearch" type="text" placeholder="Search on Lalèo">
         <div class="flex-row">
-            <div>
-                <a class="button" href="create_story.php">New story</a>
-                <a class="button" href="create_chapter.php">New chapter</a>
-            </div>
             <div class="navlinks">
                 <?php if (empty($_SESSION['role'])){
                 echo '<a class="link" href="login.php">Login</a>';
                 echo '<a class="link" href="signup.php">Signup</a>';
                 }
                 else{
+                    echo '
+                    <div>
+                        <a class="button" href="create_story.php">New story</a>
+                        <a class="button" href="create_chapter.php">New chapter</a>
+                    </div>
+                    ';
                     echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
                     echo '<a class="link" href="logout.php">Logout</a>';
                 }
