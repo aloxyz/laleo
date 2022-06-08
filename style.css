@@ -21,6 +21,13 @@ body {
     margin: 0;
 }
 
+.container {
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-items: center;
+    padding-top: 5em;
+}
+
 .title {
     color: var(--orange);
     font-weight: bold;
@@ -45,6 +52,7 @@ body {
 
     background-color: var(--white);
     box-shadow: 0 0 1.5em var(--shadow);
+    position: fixed;
   }
 
 .textlogo {
@@ -93,7 +101,7 @@ label,input{
 
 #navsearch {
     margin-left: 2em;
-    width: 30em;
+    width: 20em;
 }
 
 .formbox {
@@ -146,14 +154,6 @@ a:hover {
     color: var(--orange-light);
     transition: 0.2s;
     cursor: pointer;
-}
-
-
-
-.feed {
-    display: grid;
-    grid-template-rows: 1fr;
-    justify-items: center;
 }
 
 .box {

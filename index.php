@@ -15,12 +15,12 @@
 <body>
     <div class="navbar">
         <a class="textlogo" href="#">Lalèo</p>
-            <input id="navsearch" type="text" placeholder="Search on Lalèo">
+        <input id="navsearch" type="text" placeholder="Search on Lalèo">
         <div class="flex-row">
             <div class="navlinks">
                 <?php if (empty($_SESSION['role'])){
-                echo '<a class="link" href="login.php">Login</a>';
-                echo '<a class="link" href="signup.php">Signup</a>';
+                    echo '<a class="link" href="login.php">Login</a>';
+                    echo '<a class="link" href="signup.php">Signup</a>';
                 }
                 else{
                     echo '
@@ -36,17 +36,13 @@
             </div>
         </div>
     </div>
-        <div class="feed-header">
-
-        </div>
-    
-    <div class="feed">
+    <div class="container">
         <div class="box chapter">
             <div class="post-head">
-                    <p class="post-title">Chapter title </p>
-            <p class="italic">from <a>Story</a> by <a>Author</a></p>
+                <p class="post-title">Chapter title </p>
+                <p class="italic">from <a>Story</a> by <a>Author</a></p>
             </div>
-            
+                
             <div class="post-head">
                 <p class="italic">01/02/2003</p>
                 <p class="react">16 ❤️</p>
@@ -69,7 +65,6 @@
                 <p class="genre">Romance</p>
                 <p class="genre">Action</p>
             </div>
-
         </div>
     </div>
 </body>
