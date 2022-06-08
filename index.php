@@ -34,30 +34,39 @@
         </div>
     
     <div class="feed">
-        <div class="box">
+        <div class="box chapter">
             <div class="post-head">
-                <img class="post-profile-picture" src="https://www.utas.edu.au/__data/assets/image/0013/210811/varieties/profile_image.png">
-                <a class="post-author">Mario Rossi</a>
+                    <p class="post-title">Chapter title </p>
+            <p class="italic">from <a>Story</a> by <a>Author</a></p>
             </div>
-            <p class="post-title">Post title</p>
-            <p class="post-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Cras adipiscing enim eu turpis egestas pretium aenean. 
-            Diam sit amet nisl suscipit adipiscing bibendum. 
-            Suspendisse potenti nullam ac tortor vitae purus faucibus.
-            Rutrum quisque non tellus orci ac auctor augue. 
-            Enim eu turpis egestas pretium aenean pharetra magna ac. 
-            Aliquet sagittis id consectetur purus ut faucibus. 
-            Quam vulputate dignissim suspendisse in est ante in nibh mauris. 
-            Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. 
-            Suspendisse interdum consectetur ...<a href="chapter.php?id=1"> Read full post</a>
-            </p>
-            <a class="thoughts">12 Thoughts</a>
-            <div class="reactions">
-                <p class="react">5 ❤️</p>
-                <p class="react">3 🎉</p>
-                <p class="react">2 🔥</p>
+            
+            <div class="post-head">
+                <p class="italic">01/02/2003</p>
+                <p class="react">63 ❤️</p>
+            </div>
+        </div>
+
+        <div class="box story">
+            <div class="post-head">
+                    <p class="post-title">Story title </p>
+            <p class="italic">written in Language by <a>Author</a></p>
+            </div>
+            <img src="https://nerdarchy.com/wp-content/uploads/2018/08/tavern-1024x551.jpg">
+            <div class="post-head">
+                <p class="italic">01/02/2003</p>
+                <p class="react">432 ❤️</p>
+            </div>
+        </div>
+
+        <div class="box story">
+            <div class="post-head">
+                    <p class="post-title">Story title </p>
+            <p class="italic">written in Language by <a>Author</a></p>
+            </div>
+            <img src="http://hdqwalls.com/wallpapers/old-city-fantasy-ux.jpg">
+            <div class="post-head">
+                <p class="italic">01/02/2003</p>
+                <p class="react">432 ❤️</p>
             </div>
         </div>
     </div>

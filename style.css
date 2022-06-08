@@ -6,6 +6,7 @@
     --white-dark: #dddddd;
     --violet: #bc96e6;
     --shadow: #e0e0e0;
+    --grey: #777777;
     
     box-sizing: border-box;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -149,6 +150,18 @@ a:hover {
     box-shadow: 0 0 1.5em var(--shadow);
 }
 
+.box img {
+    border-radius: 1em;
+    margin-bottom: 1em;
+    max-height: 20em;
+    object-fit: cover;
+}
+
+.story {
+    display: flex;
+    flex-direction: column;
+}
+
 .box-story {
     width: 60em;
     margin: 2.5em;
@@ -158,15 +171,21 @@ a:hover {
 }
 
 .post-head {
-    display: grid;
-    grid-template-columns: 4em 1fr;
-    justify-items: start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    
 }
 .post-author {
     text-decoration: none;
     color: var(--black);
     font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+    color: var(--grey)   
 }
 
 .post-profile-picture {
