@@ -56,7 +56,7 @@
 
         if($error == ""){
             $author_id = $_SESSION['id'];
-            $sql = "INSERT INTO stories (title, author, language) 
+            $sql = "INSERT INTO stories (title, author_id, language) 
                     VALUES (?,?,?)";
             $query = $conn->prepare($sql);
             $query -> bind_param('sss', $title, $author_id, $language);
