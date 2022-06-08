@@ -110,10 +110,6 @@ label,input{
     align-items: center;
 }
 
-.centerbox li {
-    margin: 1.5em;
-}
-
 .button {
     background-color: var(--orange);
     color: var(--white);
@@ -206,9 +202,15 @@ a:hover {
     color: var(--grey)   
 }
 
+.error {
+    border-radius: 10px;
+    background-color: #fcb0b0;
+    padding: .5em;
+}
+
 .post-profile-picture {
     width: 3em;
-    border-radius: 25%;
+    border-radius: 2em;
 }
 
 .post-title {
