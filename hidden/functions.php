@@ -100,4 +100,28 @@
       return zone_moderator($language) || !(strcmp($_SESSION['role'], 'admin'));
   }
 
+
+  function print_navbar(){
+    echo'
+      <div class="navbar">
+        <a class="textlogo" href="index.php">Lalèo</a>
+          <form action="index.php" method="GET">
+              <input id="navsearch" type="text" name="keyword" placeholder="Search on Lalèo">
+          </form>
+          <div class="flex-row">
+              <div class="navlinks">';
+              if (empty($_SESSION['role'])){
+                echo '<a class="link" href="login.php">Login</a>';
+                echo '<a class="link" href="signup.php">Signup</a>';
+              }
+              else{
+                echo '<a class="button" href="create_story.php">New story</a>';
+                echo '<a class="button" href="create_chapter.php">New chapter</a>';
+                echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
+                echo '<a class="link" href="logout.php">Logout</a>';
+            }
+    echo'  </div>
+      </div>
+  </div>';
+}
 ?>
