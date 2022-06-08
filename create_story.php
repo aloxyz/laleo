@@ -145,7 +145,7 @@
                 </select>
             </li>
             <li>
-                <input class="button" type="submit" value="Create Story">
+                <input class="button" type="submit" value="Create story">
             </li>
         </ul>
     </form>

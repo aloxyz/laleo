@@ -58,31 +58,41 @@
     <title>Sign up - Lalèo</title>
 </head>
 <body>
-    <a class="textlogo" href="index.php">Lalèo</a>
     <?php echo $error; ?>
-    <form class="formbox" method="post">
-                <p>Title</p>
+    <form class="formbox centerbox" method="post">
+        <p class="title">Create a new chapter</p>
+        <ul>
+            <li>
+                <label for="title" class="subtitle">Chapter title</label>
                 <input class="form" type="text" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
-
-                <p>Content</p>
-                <textarea rows="20" cols="20" name="content" placeholder="Content" value=<?php echo $_POST['content']; ?>>
-                </textarea>
-                <p>Date of pubblication (default is now)</p>
+            </li>
+            <li>
+                <label for="title" class="subtitle">Content</label>
+                <textarea rows="20" cols="20" name="content" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." value=<?php echo $_POST['content']; ?>></textarea>
+            </li>
+            <li>
+                <label for="title" class="subtitle">Date of pubblication (default is now)</label>
                 <input class="form" type="date" name="pubblication_date" value=<?php echo $_POST['pubblication_date']; ?>>
-                <p>Hour of pubblication (default is now)</p>
+            </li>
+            <li>
+                <label for="title" class="subtitle">Hour of pubblication (default is now)</label>
                 <input class="form" type="time" name="pubblication_hour" value=<?php echo $_POST['pubblication_hour']; ?>>
-                <p>Select story</p>
+            </li>
+            <li>
+                <label for="title" class="subtitle">The story this chapter belongs to</label>
                 <select name="story_ID" autocomplete>
-                <?php
-                    $author_id = $_SESSION['id'];
-                    $sql = "SELECT stories.title, stories.story_ID FROM stories WHERE author_ID= '$author_id'";
-                    if($result = $conn->query($sql))
-                    while ($story = $result->fetch_array(MYSQLI_ASSOC)){
-                        echo'<option value='.$story['story_ID'].'>'.$story['title'].'</option>';
-                    }
-                ?>
+                    <?php
+                        $author_id = $_SESSION['id'];
+                        $sql = "SELECT stories.title, stories.story_ID FROM stories WHERE author_ID= '$author_id'";
+                        if($result = $conn->query($sql))
+                        while ($story = $result->fetch_array(MYSQLI_ASSOC)){
+                            echo'<option value='.$story['story_ID'].'>'.$story['title'].'</option>';
+                        }
+                    ?>
                 </select>
-                <input class="button" type="submit" value="Create chapter">
+            </li>
+        </ul>   
+        <input class="button" type="submit" value="Create chapter">
 
     </form>
 </body>
