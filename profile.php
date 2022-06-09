@@ -155,7 +155,7 @@ if ((!($row))) {
 </script>
 
 <body>
-    <div class="edit-profile">
+    <div class="edit-profile container">
         <div class="follow-header">
             <a class="button" href="followers.php?id=<?php echo $account_id; ?>">Followers</a>
             <a class="button" href="followed_users.php?id=<?php echo $account_id; ?>">Following</a>

@@ -87,7 +87,7 @@
     <?php print_navbar()?>
 
     <?php echo '<br>'.$error; ?>
-    <div class="formbox centerbox">
+    <div class="container">
         <p class="title">Create a new story</p>
     <form method="post" enctype="multipart/form-data">     
         <ul>

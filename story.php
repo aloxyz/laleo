@@ -169,6 +169,8 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
 </head>
 
 <body>
+<?php print_navbar()?>
+    <div class="container">
     <div class="box story">
         <div>
             <a class="post-author" href=<?php echo "profile.php?id=" . $row['author_ID']; ?>> <?php echo $row['author_nickname'] ?></a>
@@ -328,6 +330,8 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
         }
         ?>
     </div>
+    </div>
+    
 </body>
 
 </html>

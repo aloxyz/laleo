@@ -61,7 +61,7 @@
 <body>
     <?php print_navbar()?>
     <?php echo $error; ?>
-    <form class="formbox centerbox" method="post">
+    <form class="container" method="post">
         <p class="title">Create a new chapter</p>
         <ul>
             <li>
@@ -70,7 +70,7 @@
             </li>
             <li>
                 <label for="title" class="subtitle">Content</label>
-                <textarea rows="20" cols="20" name="content" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." value=<?php echo $_POST['content']; ?>></textarea>
+                <textarea rows="25" cols="80" name="content" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." value=<?php echo $_POST['content']; ?>></textarea>
             </li>
             <li>
                 <label for="title" class="subtitle">Date of pubblication (default is now)</label>
