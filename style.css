@@ -22,10 +22,14 @@ body {
 }
 
 .container {
-    display: grid;
-    grid-template-rows: 1fr;
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding-top: 5em;
+}
+
+#homepage-logo {
+    font-size: 7em;
 }
 
 .title {

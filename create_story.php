@@ -88,9 +88,14 @@
 
     <?php echo '<br>'.$error; ?>
     <div class="container">
-        <p class="title">Create a new story</p>
+
+    <div class="box">
+    
     <form method="post" enctype="multipart/form-data">     
         <ul>
+            <li>
+            <p class="title">Create a new story</p>
+            </li>
             <li>
                 <label for="title">Story title</label>
                 <input type="text" trol" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
@@ -129,5 +134,7 @@
         </ul>
     </form>
 </div>
+    </div>
+        
 </body>
 </html>

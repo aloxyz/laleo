@@ -104,7 +104,8 @@
 <body>
     <?php print_navbar()?>
     <div class="container">
-    <form class="formbox box centerbox" method="post">
+        <div class="formbox box">
+        <form method="post">
         <p class="title">Account registration</p>
         <a class="link" href="login.php">Click here to log in an existing account</a>
         <div>
@@ -159,6 +160,8 @@
 
     </form>
     </div>
+    
+        </div>
     
     
 </body>

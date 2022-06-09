@@ -112,12 +112,14 @@
 </head>
 <body>
     <?php print_navbar()?>
-        <?php 
+
+    <div class="container">
+    <?php 
         if($result = $conn->query($sql_chapters)){
             while($chapter = $result->fetch_array(MYSQLI_ASSOC)){
                 if(!($chapter['hidden_flag']) || (zone_moderator($chapter['language']) || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $chapter['author_nickname'])){
 
-                    echo '<div class="container">
+                    echo '<div>
     
                     <div class="box chapter">
                                 <div class="post-head">
@@ -162,5 +164,7 @@
         }
     ?>
     </div>
+    </div>
+        
 </body>
 </html>
