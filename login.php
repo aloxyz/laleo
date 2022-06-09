@@ -41,6 +41,8 @@
 </head>
 <body>
     <?php print_navbar()?>
+
+    <div class="container">
     <form class="formbox box centerbox" method="post">
         <p class="title">Login</p>
         <?php echo '<p class="error">'.$error.'</p>'; ?>
@@ -52,6 +54,8 @@
         <a class="link" href="signup.php">Sign up for an account</a>
     </form>
 
+    </div>
+    
     
 </body>
 </html>
