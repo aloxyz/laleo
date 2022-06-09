@@ -44,6 +44,7 @@ body {
     margin-left: 3em;
 }
 
+
 .navbar {
     width: 100%;
     display: flex;
@@ -277,6 +278,18 @@ a:hover {
 .flex-row {
     display: flex;
     flex-direction: row;
+}
+
+.flex-row-rev {
+    flex-direction: row-reverse;
+}
+
+.flex-center {
+    align-items: center;
+}
+
+.flex-space {
+    justify-content: space-between;
 }
 
 .list-div {

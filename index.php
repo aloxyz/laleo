@@ -36,7 +36,7 @@
                                 WHERE stories.title LIKE '%$keyword%'";
 
     }
-    else{ #Branch to take to get the feed
+    else{ #Branch to take to get the container
 
         #Last new chapters in the range of a week of all followed stories
     $sql_chapters = "SELECT chapter_ID,
@@ -112,14 +112,12 @@
 </head>
 <body>
     <?php print_navbar()?>
-        <div class="feed-header">
-    
         <?php 
         if($result = $conn->query($sql_chapters)){
             while($chapter = $result->fetch_array(MYSQLI_ASSOC)){
                 if(!($chapter['hidden_flag']) || (zone_moderator($chapter['language']) || $_SESSION['role'] == 'admin' || $_SESSION['nickname'] == $chapter['author_nickname'])){
 
-                    echo '     <div class="feed">
+                    echo '<div class="container">
     
                     <div class="box chapter">
                                 <div class="post-head">
