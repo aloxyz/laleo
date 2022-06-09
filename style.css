@@ -72,6 +72,7 @@ body {
 
 .navlinks a {
     margin: 0 1em 0 1em;
+    padding-top: .5em; 
 }
 
 input[type=text], input[type=password], input[type=date], input[type=submit]{
@@ -100,8 +101,12 @@ label,input{
   }
 
 #navsearch {
-    margin-left: 2em;
-    width: 20em;
+    width: 40em;
+}
+
+form {
+    margin: 0;
+    padding: 0;
 }
 
 .formbox {
