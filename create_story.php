@@ -54,11 +54,11 @@
         }
 
         if($error == ""){
-            $author_id = $_SESSION['id'];
-            $sql = "INSERT INTO stories (title, author_id, language) 
+            $author_ID = $_SESSION['id'];
+            $sql = "INSERT INTO stories (title, author_ID, language) 
                     VALUES (?,?,?)";
             $query = $conn->prepare($sql);
-            $query -> bind_param('sss', $title, $author_id, $language);
+            $query -> bind_param('sss', $title, $author_ID, $language);
             $query->execute();
             
             $story_id = $conn->insert_id;
@@ -84,27 +84,7 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <a class="textlogo" href="#">Lalèo</p>
-            <input id="navsearch" type="text" placeholder="Search on Lalèo">
-        <div class="flex-row">
-            <div>
-                <a class="button" href="create_story.php">New story</a>
-                <a class="button" href="create_chapter.php">New chapter</a>
-            </div>
-            <div class="navlinks">
-                <?php if (empty($_SESSION['role'])){
-                echo '<a class="link" href="login.php">Login</a>';
-                echo '<a class="link" href="signup.php">Signup</a>';
-                }
-                else{
-                    echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
-                    echo '<a class="link" href="logout.php">Logout</a>';
-                }
-                ?>
-            </div>
-        </div>
-    </div>
+    <?php print_navbar()?>
 
     <?php echo '<br>'.$error; ?>
     <div class="formbox centerbox">

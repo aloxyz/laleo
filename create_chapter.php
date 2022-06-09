@@ -1,5 +1,6 @@
 <?php
     require_once("conn.php");
+    require_once('hidden/functions.php');
     if ($_POST){
 
         $title = $conn->real_escape_string($_POST['title']);
@@ -58,6 +59,7 @@
     <title>Sign up - Lalèo</title>
 </head>
 <body>
+    <?php print_navbar()?>
     <?php echo $error; ?>
     <form class="formbox centerbox" method="post">
         <p class="title">Create a new chapter</p>

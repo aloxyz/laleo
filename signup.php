@@ -1,5 +1,6 @@
 <?php 
     require_once('conn.php'); 
+    require_once('hidden/functions.php');
     session_start();
     if($_POST){         
         $error = "";
@@ -101,8 +102,8 @@
     <title>Sign up - Lalèo</title>
 </head>
 <body>
-    <a class="textlogo" href="index.php">Lalèo</a>
-    <form class="formbox box" method="post">
+    <?php print_navbar()?>
+    <form class="formbox box centerbox" method="post">
         <p class="title">Account registration</p>
         <a class="link" href="login.php">Click here to log in an existing account</a>
         <div>

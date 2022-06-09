@@ -1,5 +1,6 @@
 <?php
     require_once('conn.php');
+    require_once('hidden/functions.php');
     session_start();
 
 
@@ -39,8 +40,7 @@
     <title>Login - Lalèo</title>
 </head>
 <body>
-    <a class="textlogo" href="index.php">Lalèo</a>
-
+    <?php print_navbar()?>
     <form class="formbox box centerbox" method="post">
         <p class="title">Login</p>
         <?php echo '<p class="error">'.$error.'</p>'; ?>
