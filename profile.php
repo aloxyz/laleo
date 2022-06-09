@@ -142,9 +142,16 @@ if ((!($row))) {
 
 <body>
     <?php print_navbar()?>
-            <div class="box flex-column">
-                <?php if (isset($row['nickname'])) echo '<p class="post-title">'.$row['name'].' '.$row['surname'].'</p>'; ?>
-                <div class="edit-profile container">
+        <div class="container">
+        <div class="box flex-column">
+            <div class="flex-row flex-center flex-space">
+            <?php if (isset($row['nickname'])) echo '<p class="post-title">'.$row['name'].' '.$row['surname'].'</p>';
+                if ($_SESSION['id'] == $row['account_ID']) {
+                    echo '<a href="edit_profile.php?id='.$_SESSION['id'].'">Edit profile</a>';
+                    }
+            ?>
+            </div>
+                
                 
                 <div class="flex-row flex-center flex-space">
                     <a class="button" href="followers.php?id=<?php echo $account_id; ?>">Followers</a>
@@ -242,12 +249,7 @@ if ((!($row))) {
                     </div>
 
                     <div class="flex-row">
-                        <?php
-                        if ($_SESSION['id'] == $row['account_ID']) {
-                            echo '<a href="edit_genres_languages.php">Edit genres and languages</a>';
-                            echo '<a href="edit_profile.php?id='.$_SESSION['id'].'">Edit profile</a>';
-                        }
-                        ?>
+
                     </div>
 
 
@@ -268,6 +270,8 @@ if ((!($row))) {
                         ?>
                     </div>
                 </div>
+        </div>
+          
         </body>
 
 </html>
