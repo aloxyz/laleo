@@ -6,20 +6,6 @@
     <?php echo '<title>' . $row['nickname'] . ' - Lalèo</title>' ?>
 </head>
 
-<div class="navbar">
-    <a class="textlogo" href="index.php">Lalèo</p>
-        <div class="navlinks">
-            <?php if (empty($_SESSION['role'])) {
-                echo '<a class="link" href="login.php">Login</a>';
-                echo '<a class="link" href="signup.php">Signup</a>';
-            } else {
-                echo '<a class="link" href="profile.php?id=' . $_SESSION['id'] . '">Edit Profile</a>';
-                echo '<a class="link" href="logout.php">Logout</a>';
-            }
-            ?>
-        </div>
-</div>
-
 <?php
 require_once("conn.php");
 require_once("hidden/functions.php");
@@ -155,7 +141,9 @@ if ((!($row))) {
 </script>
 
 <body>
-    <div class="edit-profile container">
+    <?php print_navbar()?>
+    <div class="container">
+    <div class="edit-profile">
         <div class="follow-header">
             <a class="button" href="followers.php?id=<?php echo $account_id; ?>">Followers</a>
             <a class="button" href="followed_users.php?id=<?php echo $account_id; ?>">Following</a>
@@ -349,6 +337,8 @@ if ((!($row))) {
 
                     </div>
                 </div>
+    </div>
+    
 </body>
 
 </html>
