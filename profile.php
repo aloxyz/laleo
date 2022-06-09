@@ -198,10 +198,10 @@ if ((!($row))) {
                     ?>
                 
                 
-                <div class="flex-row flex-center flex-space">
-                    <p class="subtitle">Real name</p>
-                    <?php if (isset($row['name']) && isset($row['name'])) echo $row['name'].' '.$row['surname'].'</p>'; ?>
-                </div>
+            <div class="flex-row flex-center flex-space">
+                <p class="subtitle">Real name</p>
+                <?php if (isset($row['name']) && isset($row['name'])) echo '<p>'.$row['name'].' '.$row['surname'].'</p>'; ?>
+            </div>
 
 
             <div class="flex-row flex-center flex-space">
