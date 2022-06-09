@@ -117,7 +117,7 @@
               else{
                 echo '<a class="button" href="create_story.php">New story</a>';
                 echo '<a class="button" href="create_chapter.php">New chapter</a>';
-                echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">Edit Profile</a>';
+                echo '<a class="link" href="profile.php?id='.$_SESSION['id'].'">My account</a>';
                 echo '<a class="link" href="logout.php">Logout</a>';
             }
     echo'  </div>
