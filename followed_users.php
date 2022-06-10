@@ -5,8 +5,8 @@
     $account_id = $conn->real_escape_string($_GET['id']);
     $sql = "SELECT * FROM accounts WHERE account_ID='$account_id'";
     if($result = $conn->query($sql))
-            if($result->num_rows){
-                header("hidden/user_not_found");
+            if(!($result->num_rows)){
+                header("Location: hidden/user_not_found.html");
             }
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
