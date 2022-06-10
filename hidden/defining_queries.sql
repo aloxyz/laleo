@@ -6,8 +6,8 @@ create table roles(
 create table accounts(
    account_ID INT AUTO_INCREMENT,
    nickname VARCHAR(15) NOT NULL,
-   email VARCHAR(320) NOT NULL,
-   password VARCHAR(256) NOT NULL,
+   email VARCHAR(50) NOT NULL,
+   password VARCHAR(60) NOT NULL,
    name VARCHAR(20),
    surname VARCHAR(20),
    country VARCHAR(30),
