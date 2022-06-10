@@ -71,7 +71,7 @@
                 </li>
                 <li>
                     <label for="title" class="subtitle">Chapter title</label>
-                    <input class="form" type="text" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
+                    <input class="form" type="text" name="title" placeholder="Title" maxlength="50" value=<?php echo $_POST['title']; ?> >
                 </li>
                 <li>
                     <label for="title" class="subtitle">Content</label>
