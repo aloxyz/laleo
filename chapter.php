@@ -266,6 +266,7 @@ $(document).ready(function(){
     <?php echo '<title>'.$row['story_title'].' - '.$row['chapter_title'].'</title>'; ?>
 </head>
 <body>
+        <?php print_navbar()?>
         <div class="box">
             <div class="post-head">
                 <a class="post-author" href="profile.php?id=<?php echo $row['author_ID'];?>"><?php echo $row['author'];?></a>

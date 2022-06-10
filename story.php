@@ -29,7 +29,7 @@ if ($result = $conn->query($sql)) {
 }
 
 
-if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges() || $_SESSION['role'] == 'admin'))) {   #adding genres
+if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges($row['language']) || $_SESSION['role'] == 'admin'))) {   #adding genres
     if (!(verify_genres_errors($_POST['genre'])))
         add_story_genres($story_id, $_POST['genre'], $story_genres);
 }
@@ -218,7 +218,7 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
             <?php echo '<p>Language: ' . $row['language'] . '</p>'; ?>
             <div class="flex-row flex-center">
                 <button class="vote button" id="up">upvote</button>
-                <?php echo '<p class="subtitle">' . $row['total_votes'] . '</p>' ?>
+                <?php echo '<p class="subtitle" id="total_votes">'.$row['total_votes'].'</p>'?>
                 <button class="vote button" id="down">downvote</button>
             </div>
             <div>
@@ -257,7 +257,7 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
         <div>
             <?php if ($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privileges($row['language']) || $_SESSION['role'] == 'admin') {
                 echo '<div class="italic flex-row flex-row-rev">Click on a genre to delete it</div>';
-            }
+            
             echo '<div>
         <label for="genre">Add new genres</label>
         <form method="post">
@@ -271,6 +271,7 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
         <div><input class="button" type="submit" value="Add Genres"></div>
         </form>
         </div>';
+            }
             ?>
 
         </div>
