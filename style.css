@@ -11,6 +11,7 @@
     box-sizing: border-box;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     color: #444444;
+    word-wrap: break-word;
 }
 
 ul {
