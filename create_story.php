@@ -98,7 +98,7 @@
             </li>
             <li>
                 <label for="title">Story title</label>
-                <input type="text" trol" name="title" placeholder="Title" value=<?php echo $_POST['title']; ?> >
+                <input type="text" trol" name="title" placeholder="Title" maxlength="50" value=<?php echo $_POST['title']; ?> >
             </li>
             <li>
                 <label for="image">Choose an image for your story</label>

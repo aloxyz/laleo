@@ -190,11 +190,7 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
         </div>
 
         <div class="flex-row flex-center flex-space">
-            <p class="post-title"><?php echo $row['story_title']; ?></p>
-            <?php
-            if ($_SESSION['nickname'] == $row['author_nickname'])
-                echo '<div><a href="create_chapter.php">New Chapter</a></div>';
-            ?>
+            <p class="post-title" id="story-title"><?php echo $row['story_title']; ?></p>
             <?php
             if ((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || $_SESSION['id'] == $row['author_ID'])) {
                 echo '<a href="index.php"><div id ="delete_story" value = delete>Delete story</div></a>';
@@ -271,6 +267,10 @@ if ($_POST && (($_SESSION['id'] == $row['author_ID'] || verify_mod_admin_privile
         <div><input class="button" type="submit" value="Add Genres"></div>
         </form>
         </div>';
+            ?>
+            <?php
+            if ($_SESSION['nickname'] == $row['author_nickname'])
+                echo '<div><a href="create_chapter.php">New Chapter</a></div>';
             ?>
 
         </div>

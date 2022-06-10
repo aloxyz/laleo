@@ -11,7 +11,10 @@
     box-sizing: border-box;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     color: #444444;
-    word-wrap: break-word;
+}
+
+p {
+    word-break: break-all;
 }
 
 ul {
@@ -229,6 +232,7 @@ a:hover {
 .post-title {
     font-weight: bold;
     font-size: 1.5em;
+    word-break: break-all;
 }
 
 .reactions {
@@ -349,3 +353,6 @@ a:hover {
 
 }
 
+#story-title {
+    max-width: 80%;
+}
