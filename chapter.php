@@ -127,12 +127,12 @@
                                     $sql1 = "SELECT * FROM thoughts_accounts_reactions WHERE thought_ID='$thought[thought_ID]' AND reaction='$reaction'";
                                     $sql2 = "SELECT * FROM thoughts_accounts_reactions WHERE thought_ID='$thought[thought_ID]' AND reaction='$reaction' AND account_ID='$_SESSION[id]'";
                                     if($conn->query($sql2)->num_rows)
-                                        echo '<div class="reactions react react_thought btn-primary" thought_ID="'.$thought['thought_ID'].'" reaction="'.$reaction.'">
+                                        echo '<div num="-1" class="reactions react react_thought btn-primary" thought_ID="'.$thought['thought_ID'].'" reaction="'.$reaction.'">
                                                 <div id="thought_reactions_number'.$reaction.$thought['thought_ID'].'">'.$conn->query($sql1)->num_rows.'</div>
                                                 '.$reaction.'
                                                 </div>';
                                     else
-                                        echo '<div class="reactions react react_thought" thought_ID="'.$thought['thought_ID'].'" reaction="'.$reaction.'">
+                                        echo '<div num="+1" class="reactions react react_thought" thought_ID="'.$thought['thought_ID'].'" reaction="'.$reaction.'">
                                                 <div id="thought_reactions_number'.$reaction.$thought['thought_ID'].'">'.$conn->query($sql1)->num_rows.'</div>
                                                 '.$reaction.'
                                                 </div>';
@@ -180,14 +180,15 @@ $(document).ready(function(){
     var reaction = $(this).attr('reaction');
     $(this).toggleClass("btn-primary");
 
+    document.getElementById("chapter_reactions_number"+reaction).innerHTML = 
+    parseInt(document.getElementById("chapter_reactions_number"+reaction).innerHTML)+parseInt($(this).attr('num'));  
+
+    $(this).attr('num', -1 * parseInt($(this).attr('num')));
+
     $.post("hidden/react_chapter.php",
     {
         chapter_id:<?php echo $chapter_ID;?>,
         reaction:reaction
-    },
-    function(data,status){
-        document.getElementById("chapter_reactions_number"+reaction).innerHTML = 
-        parseInt(document.getElementById("chapter_reactions_number"+reaction).innerHTML)+parseInt(data);  
     }
     )
     });
@@ -198,14 +199,15 @@ $(document).ready(function(){
         var thought_ID = $(this).attr('thought_ID');
         $(this).toggleClass("btn-primary");
 
+        document.getElementById("thought_reactions_number"+reaction+thought_ID).innerHTML = 
+        parseInt(document.getElementById("thought_reactions_number"+reaction+thought_ID).innerHTML)+parseInt($(this).attr('num'));  
+
+        $(this).attr('num', -1 * parseInt($(this).attr('num')));
+
         $.post("hidden/react_thought.php",
         {
             thought_id:thought_ID,
             reaction:reaction
-        },
-        function(data,status){
-            document.getElementById("thought_reactions_number"+reaction+thought_ID).innerHTML = 
-            parseInt(document.getElementById("thought_reactions_number"+reaction+thought_ID).innerHTML)+parseInt(data);  
         }
         )
     });
@@ -237,15 +239,14 @@ $(document).ready(function(){
     )});
 
     $(".delete_thought").on("click", function(){
-    
-    var thought_id = $(this).attr('id');
-    $.get("hidden/delete_thought.php?id="+thought_id);
-    });
+        var thought_id = $(this).attr('id');
+        $.get("hidden/delete_thought.php?id="+thought_id);
+        });
 
-    $(".chapter_comment_button").on("click", function(){
-    
-        $('#chapter_comment').toggle();
-    });
+        $(".chapter_comment_button").on("click", function(){
+        
+            $('#chapter_comment').toggle();
+        });
 
     $(".thought_comment_button").on("click", function(){
     
@@ -280,12 +281,12 @@ $(document).ready(function(){
                 $sql1 = "SELECT * FROM chapters_accounts_reactions WHERE chapter_ID='$chapter_ID' AND reaction='$reaction'";
                 $sql2 = "SELECT * FROM chapters_accounts_reactions WHERE chapter_ID='$chapter_ID' AND reaction='$reaction' AND account_ID='$_SESSION[id]'";
                 if($conn->query($sql2)->num_rows)
-                    echo '<div class="reactions react react_chapter btn-primary" reaction="'.$reaction.'">
+                    echo '<div class="reactions react react_chapter btn-primary" reaction="'.$reaction.'" num="-1">
                                 <div id="chapter_reactions_number'.$reaction.'">'.$conn->query($sql1)->num_rows.'</div>
                             '.$reaction.'
                             </div>';
                 else
-                    echo '<div class="reactions react react_chapter" reaction="'.$reaction.'">
+                    echo '<div class="reactions react react_chapter" reaction="'.$reaction.'" num="+1">
                                 <div id="chapter_reactions_number'.$reaction.'">'.$conn->query($sql1)->num_rows.'</div>
                             '.$reaction.'
                             </div>';
