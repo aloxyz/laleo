@@ -7,7 +7,11 @@ create table accounts(
    account_ID INT AUTO_INCREMENT,
    nickname VARCHAR(15) NOT NULL,
    email VARCHAR(50) NOT NULL,
+<<<<<<< HEAD
    password VARCHAR(60) NOT NULL,
+=======
+   password VARCHAR(50) NOT NULL,
+>>>>>>> cb3699642341f983310f5cbe751d7564d5b00a91
    name VARCHAR(20),
    surname VARCHAR(20),
    country VARCHAR(30),
