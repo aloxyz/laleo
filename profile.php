@@ -103,7 +103,7 @@ if ($result = $conn->query($sql))
     $row = $result->fetch_array(MYSQLI_ASSOC);
 
 if ((!($row))) {
-    header("location: hidden/user_not_found.html");
+    header("location: hidden/user_not_found.php");
 }
 
 ?>

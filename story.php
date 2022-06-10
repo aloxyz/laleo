@@ -20,7 +20,7 @@ if ($result = $conn->query($sql))
     $row = $result->fetch_array(MYSQLI_ASSOC);
 
 if ((!($row) || ($row['hidden_flag'] && !(zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')) || $_SESSION['id'] == $row['author_ID'])))) {
-    header("location: hidden/story_not_found.html");
+    header("location: hidden/story_not_found.php");
 }
 
 $sql = "SELECT genre_name FROM genres_stories WHERE story_ID='$story_id'";

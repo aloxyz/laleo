@@ -1,10 +1,14 @@
+<?php
+    require_once("functions");
+?>
+
 <html>
 <head>
     <link href="../style.css" rel="stylesheet">
     <title>User not found</title>
 </head>
 <body>
-    <a class="textlogo" href="index.php">Lalèo</a>
-    <div class="box"> User not found </div>
+    <?php print_navbar() ?>
+    <div class="box"> Story not found </div>
 </body>
 </html>
