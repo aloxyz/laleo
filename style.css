@@ -306,3 +306,16 @@ a:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+
+#homepage-logo {
+    text-align: right;
+}
+
+#homepage-desc {
+    font-size: 1.5em;
+}
+
+#homepage-logo-container {
+    display: flex;
+    flex-flow: column wrap;
+}

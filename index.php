@@ -2,6 +2,9 @@
     require_once('conn.php');
     require('hidden/functions.php');
     session_start();
+    if (!$_SESSION['id']) {
+        header("Location: homepage.php");
+    }
 
 
     #Branch to take if a custom search was made
