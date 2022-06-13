@@ -7,7 +7,7 @@
     $story_id = $conn->real_escape_string($_POST['story_id']);
     $bool = $conn->real_escape_string($_POST['bool']);
 
-    $sql = "SELECT language, author FROM stories WHERE stories.story_ID = '$story_id'";
+    $sql = "SELECT language, author_ID FROM stories WHERE stories.story_ID = '$story_id'";
     $row = $conn->query($sql)->fetch_array(MYSQLI_ASSOC);
 
     if((zone_moderator($row['language']) || !(strcmp($_SESSION['role'], 'admin')))){
