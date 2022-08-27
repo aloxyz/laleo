@@ -12,11 +12,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-    $(".unfollow").on("click", function(){
+    $(".delete").on("click", function(){
         
         var story_id = $(this).attr('id');
         $('.row.story.'+story_id).attr('hidden', true);
-        $.get("hidden/unfollow_story.php?id="+story_id);
+        $.get("hidden/delete_story.php?id="+story_id);
 });
 });
 </script>
@@ -43,7 +43,7 @@ $(document).ready(function(){
                     if($_SESSION['id'] == $account_id){
                     echo '
                      <div class="col-sm-6">
-                        <button class="unfollow btn btn-primary profile-button" id="'.$story['story_ID'].'">Unfollow</button>
+                        <button class="delete btn btn-primary profile-button" id="'.$story['story_ID'].'">Delete</button>
                     </div>';
                    }          
                    echo '</div>';
