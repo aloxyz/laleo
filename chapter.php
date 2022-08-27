@@ -25,8 +25,8 @@
             if($result->num_rows){
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 if(!(visible($row))){
-                    #header("hidden/chapter_not_found.php");
-                    #exit();
+                    header("hidden/chapter_not_found.php");
+                    exit();
                 }
             }
 
