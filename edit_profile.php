@@ -31,7 +31,7 @@ if ($_POST['languages'] && $_SESSION['role'] == 'admin') {
     $new_email = $conn->real_escape_string($_POST['email']);
     $new_password = $conn->real_escape_string($_POST['new_password']);
     $confirmed_password = $conn->real_escape_string($_POST['confirm_password']);
-    $account_id = $conn->real_escape_string($_POST['id']);
+    $account_id = $conn->real_escape_string($_GET['id']);
 
     $sql = "SELECT role FROM accounts WHERE account_ID ='$account_id'";
     $row = $conn->query($sql)->fetch_array(MYSQLI_ASSOC);
@@ -58,9 +58,10 @@ if ($_POST['languages'] && $_SESSION['role'] == 'admin') {
     else {
         $sql_check = "SELECT * FROM accounts WHERE nickname = '$new_nickname'";
         if ($result = $conn->query($sql_check))
-            if (!($result->num_rows))
+            if (!($result->num_rows)){
                 $sql_update .= "UPDATE accounts SET nickname='$new_nickname' WHERE account_ID = '$account_id'; ";
-            else
+                }
+ 			else
                 $error .= "There is already an account associated with this nickname<br>";
     }
 
@@ -88,7 +89,8 @@ if ($_POST['languages'] && $_SESSION['role'] == 'admin') {
         $new_password = password_hash($new_password, PASSWORD_DEFAULT);
         $sql_update .= "UPDATE accounts SET password='$new_password' WHERE account_ID = '$account_id'; ";
     }
-
+	
+    echo $sql_update;
     $conn->multi_query($sql_update);
     while ($conn->next_result()) {;
     } #waits for queries to finish
@@ -103,7 +105,7 @@ if ($result = $conn->query($sql))
     $row = $result->fetch_array(MYSQLI_ASSOC);
 
 if ((!($row))) {
-    header("location: hidden/user_not_found.php");
+    header("location: homepage.php");
 }
 
 ?>
@@ -136,13 +138,19 @@ if ((!($row))) {
                 })
             }
         });
-
+		
+        $("#delete").on("click", function() {
+            $.get("hidden/delete_account.php?id=<?php echo $account_id ?>");
+			window.location.href = "http://www.w3schools.com";
+        });
+        
     });
 </script>
 
 <body>
     <?php print_navbar()?>
     <div class="container">
+	<?php echo $error; ?>
     <div class="edit-profile">
         <div class="follow-header">
             <a class="button" href="followers.php?id=<?php echo $account_id; ?>">Followers</a>
@@ -163,10 +171,16 @@ if ((!($row))) {
                 }
             }
 
-            if ($_SESSION['role'] != 'admin' || $row['role'] == 'admin')
+            ?>
+        </div>
+		
+        <?php 
+        	if ($_SESSION['role'] != 'admin' || $row['role'] == 'admin')
                 echo '<p id="role"> Role: ' . $row['role'] . '</p>';
             else {
-                echo '<select name="role" id="role" class="form-select">';
+            	echo '<div class="edit-profile-formbox"><div>';
+            	echo '<form method="post">';
+                echo '<select name="role" id="role">';
                 $sql = 'SELECT role_name FROM roles';
                 if ($result = $conn->query($sql))
                     while ($role = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -177,30 +191,27 @@ if ((!($row))) {
                         }
                     }
                 echo '</select>';
+				echo '<input class="button" type="submit" value="Change Role">';
+            	echo '</form>';
+                echo '</div></div>';
             }
-
-            ?>
-        </div>
-
+        ?>
+        
         <form method="post">
-
             <div class="edit-profile-formbox">
                 <?php
-                if (isset($row['name'])) {
                     echo '<div>
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Name" ';
                     if ($_SESSION['id'] != $row['account_ID'] && $_SESSION['role'] != 'admin') echo " readonly "; # readonly if current user has no right to edit
                     echo 'value=' . $row['name'] . '></div>';
-                }
+                
 
-                if (isset($row['surname'])) {
                     echo '<div>
                             <label for="surname">Surname</label>
                             <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" ';
                     if ($_SESSION['id'] != $row['account_ID'] && $_SESSION['role'] != 'admin') echo " readonly "; # readonly if current user has no right to edit
                     echo 'value=' . $row['surname'] . '></div>';
-                }
                 ?>
 
                 <div>
@@ -210,13 +221,11 @@ if ((!($row))) {
                 </div>
 
                 <?php
-                if (isset($row['country'])) {
                     echo '<div>
                             <label for="country">Country</label>
                             <input type="text" class="form-control" id="country" name="country" placeholder="Country" ';
                     if ($_SESSION['id'] != $row['account_ID'] && $_SESSION['role'] != 'admin') echo " readonly "; # readonly  if current user has no right to edit
                     echo 'value=' . $row['country'] . '></div>';
-                }
 
                 if ($_SESSION['id'] == $row['account_ID'] || $_SESSION['role'] == 'admin') {
                     echo '
@@ -301,6 +310,7 @@ if ((!($row))) {
                                 }
                             }
                             echo '</div>';
+                            echo '</form>';
                         }
 
                         if ($_SESSION['role'] == 'admin' && $row['role'] == 'moderator') {
@@ -323,7 +333,7 @@ if ((!($row))) {
                             echo '<input type="hidden" id="id" name="id" value=' . $row['account_ID'] . '>';
                             echo '<div class>
                     <div>
-                        <a class="button" href="homepage-php" id="delete">Delete</a>    
+                        <a class="button" id="delete">Delete</a>    
                     </div>
                     <div>
                         <input class="button" type="submit" value="Edit">
