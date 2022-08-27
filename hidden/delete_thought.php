@@ -6,7 +6,7 @@
 
     $thought_id = $conn->real_escape_string($_GET['id']);
 
-    $sql = "SELECT stories.language AS language FROM stories 
+    $sql = "SELECT stories.language AS language, thoughts.author AS author_nickname FROM stories
             JOIN chapters ON stories.story_ID = chapters.story_ID 
             JOIN thoughts ON thoughts.chapter_ID = chapters.chapter_ID 
             WHERE thought_ID='$thought_id'";

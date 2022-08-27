@@ -6,13 +6,15 @@
     $reaction = $conn->real_escape_string($_POST['reaction']);
     $account_ID = $_SESSION['id'];
     
-    try{
+    $sql = "SELECT * FROM chapters_accounts_reactions WHERE reaction='$reaction' AND chapter_ID='$chapter_id' AND account_ID='$account_ID'";
+
+    if(!($conn->query($sql)->num_rows)){
         $sql = "INSERT INTO chapters_accounts_reactions (reaction, chapter_ID, account_ID) VALUES ('$reaction','$chapter_id','$account_ID')";
         $conn->query($sql);
         echo '1';
     }
-    catch(Exception $e){
-        $sql = "DELETE FROM chapters_accounts_reactions WHERE reaction='$reaction' AND chapter_ID='$chapter_id' AND account_ID='$account_ID'";
+    else{
+    $sql = "DELETE FROM chapters_accounts_reactions WHERE reaction='$reaction' AND chapter_ID='$chapter_id' AND account_ID='$account_ID'";
         $conn->query($sql);
         echo '-1';
     }
